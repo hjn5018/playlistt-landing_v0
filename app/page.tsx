@@ -3,9 +3,8 @@
 import { useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Music, Share2, Users, Heart, Headphones, ChevronRight, Play, Search } from "lucide-react"
+import { Music, Heart, ChevronRight, Play } from "lucide-react"
 import { PlaylistModal } from "@/components/playlist-modal"
-import { Input } from "@/components/ui/input"
 import { Header } from "@/components/header"
 
 export default function LandingPage() {
