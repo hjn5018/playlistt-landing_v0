@@ -7,6 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Music, Heart, Play, Users, Bell, Share2 } from "lucide-react"
 import { PlaylistModal } from "@/components/playlist-modal"
+import { Header } from "@/components/header"
 
 export default function UserProfilePage({ params }: { params: { username: string } }) {
   const [activeTab, setActiveTab] = useState("playlists")
@@ -18,6 +19,7 @@ export default function UserProfilePage({ params }: { params: { username: string
     tracks: number
     color: string
   } | null>(null)
+  const [searchQuery, setSearchQuery] = useState("")
 
   // Mock user data - in a real app, you would fetch this based on the username
   const user = {
@@ -120,36 +122,7 @@ export default function UserProfilePage({ params }: { params: { username: string
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between py-4">
-          <div className="flex items-center gap-2">
-            <Link href="/" className="flex items-center gap-2">
-              <Music className="h-6 w-6 text-purple-500" />
-              <span className="text-xl font-bold">playlistt</span>
-            </Link>
-          </div>
-          <nav className="hidden md:flex items-center gap-6">
-            <Link href="/" className="text-sm font-medium hover:underline underline-offset-4">
-              Home
-            </Link>
-            <Link href="/discover" className="text-sm font-medium hover:underline underline-offset-4">
-              Discover
-            </Link>
-            <Link href="/mypage" className="text-sm font-medium hover:underline underline-offset-4">
-              My Page
-            </Link>
-          </nav>
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon">
-              <Bell className="h-5 w-5" />
-            </Button>
-            <Avatar>
-              <AvatarImage src="/placeholder.svg?height=40&width=40" alt="Your avatar" />
-              <AvatarFallback>YA</AvatarFallback>
-            </Avatar>
-          </div>
-        </div>
-      </header>
+      <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} showSearch={true} />
       <main className="flex-1">
         {/* User Profile Header */}
         <div className="bg-gradient-to-b from-purple-50 to-white dark:from-purple-950/20 dark:to-background py-8 md:py-12">

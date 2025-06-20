@@ -31,12 +31,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Slider } from "@/components/ui/slider"
+import { Header } from "@/components/header"
 
 export default function PlaylistDetailPage({ params }: { params: { id: string } }) {
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentTrack, setCurrentTrack] = useState<number | null>(null)
   const [liked, setLiked] = useState(false)
   const [commentText, setCommentText] = useState("")
+  const [searchQuery, setSearchQuery] = useState("")
 
   // Mock playlist data
   const playlist = {
@@ -205,35 +207,7 @@ export default function PlaylistDetailPage({ params }: { params: { id: string } 
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between py-4">
-          <div className="flex items-center gap-2">
-            <Link href="/" className="flex items-center gap-2">
-              <Music className="h-6 w-6 text-purple-500" />
-              <span className="text-xl font-bold">playlistt</span>
-            </Link>
-          </div>
-          <nav className="hidden md:flex items-center gap-6">
-            <Link href="/" className="text-sm font-medium hover:underline underline-offset-4">
-              Home
-            </Link>
-            <Link href="/discover" className="text-sm font-medium hover:underline underline-offset-4">
-              Discover
-            </Link>
-            <Link href="/mypage" className="text-sm font-medium hover:underline underline-offset-4">
-              My Page
-            </Link>
-          </nav>
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" size="sm">
-              Log in
-            </Button>
-            <Button size="sm" className="bg-purple-600 hover:bg-purple-700">
-              Sign up
-            </Button>
-          </div>
-        </div>
-      </header>
+      <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} showSearch={true} />
       <main className="flex-1">
         {/* Playlist Header */}
         <div className={`bg-gradient-to-b ${playlist.color} to-background py-8 md:py-12`}>

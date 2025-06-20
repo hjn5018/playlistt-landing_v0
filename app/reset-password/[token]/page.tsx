@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Music, AlertCircle, CheckCircle } from "lucide-react"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { Header } from "@/components/header"
 
 export default function ResetPasswordPage({ params }: { params: { token: string } }) {
   const router = useRouter()
@@ -20,6 +21,7 @@ export default function ResetPasswordPage({ params }: { params: { token: string 
   const [success, setSuccess] = useState(false)
   const [loading, setLoading] = useState(false)
   const [tokenValid, setTokenValid] = useState(true)
+  const [searchQuery, setSearchQuery] = useState("")
 
   // 토큰 유효성 검사 (실제 구현에서는 API 호출)
   useEffect(() => {
@@ -107,36 +109,7 @@ export default function ResetPasswordPage({ params }: { params: { token: string 
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between py-4">
-          <div className="flex items-center gap-2">
-            <Link href="/" className="flex items-center gap-2">
-              <Music className="h-6 w-6 text-purple-500" />
-              <span className="text-xl font-bold">playlistt</span>
-            </Link>
-          </div>
-          <nav className="hidden md:flex items-center gap-6">
-            <Link href="/" className="text-sm font-medium hover:underline underline-offset-4">
-              Home
-            </Link>
-            <Link href="/discover" className="text-sm font-medium hover:underline underline-offset-4">
-              Discover
-            </Link>
-          </nav>
-          <div className="flex items-center gap-4">
-            <Link href="/login">
-              <Button variant="ghost" size="sm">
-                Log in
-              </Button>
-            </Link>
-            <Link href="/signup">
-              <Button size="sm" className="bg-purple-600 hover:bg-purple-700">
-                Sign up
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </header>
+      <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} showSearch={true} />
       <main className="flex-1 flex items-center justify-center p-4 md:p-8 bg-gradient-to-b from-purple-50 to-white dark:from-purple-950/20 dark:to-background">
         <Card className="mx-auto max-w-md w-full">
           <CardHeader className="space-y-1">

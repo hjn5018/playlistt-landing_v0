@@ -28,6 +28,7 @@ import {
   MessageSquare,
   MoreHorizontal,
   Trash2,
+  Search,
 } from "lucide-react"
 import {
   DropdownMenu,
@@ -48,6 +49,7 @@ export default function ProfilePage() {
     color: string
   } | null>(null)
   const [editMode, setEditMode] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("")
 
   // Mock user data
   const user = {
@@ -337,18 +339,29 @@ export default function ProfilePage() {
               <span className="text-xl font-bold">playlistt</span>
             </Link>
           </div>
-          <nav className="hidden md:flex items-center gap-6">
-            <Link href="/" className="text-sm font-medium hover:underline underline-offset-4">
-              Home
-            </Link>
+          <div className="flex items-center gap-6">
             <Link href="/discover" className="text-sm font-medium hover:underline underline-offset-4">
               Discover
             </Link>
-            <Link href="/profile" className="text-sm font-medium text-purple-600 underline underline-offset-4">
-              Profile
+            <Link href="/mypage" className="text-sm font-medium hover:underline underline-offset-4">
+              My Page
             </Link>
-          </nav>
-          <div className="flex items-center gap-4">
+            <div className="relative w-64 flex items-center">
+              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Input
+                type="search"
+                placeholder="Search playlists..."
+                className="pl-8"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            <Link href="/playlist/create">
+              <Button size="sm" className="bg-purple-600 hover:bg-purple-700 ml-4">
+                <Music className="mr-2 h-4 w-4" />
+                Create Playlist
+              </Button>
+            </Link>
             <Button variant="ghost" size="icon">
               <Bell className="h-5 w-5" />
             </Button>

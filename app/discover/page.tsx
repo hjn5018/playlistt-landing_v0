@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Music, Heart, Search, Play, Filter } from "lucide-react"
 import { PlaylistModal } from "@/components/playlist-modal"
+import { Header } from "@/components/header"
 
 export default function DiscoverPage() {
   const [modalOpen, setModalOpen] = useState(false)
@@ -199,45 +200,7 @@ export default function DiscoverPage() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between py-4">
-          <div className="flex items-center gap-2">
-            <Link href="/" className="flex items-center gap-2">
-              <Music className="h-6 w-6 text-purple-500" />
-              <span className="text-xl font-bold">playlistt</span>
-            </Link>
-          </div>
-          <nav className="hidden md:flex items-center gap-6">
-            <Link href="/" className="text-sm font-medium hover:underline underline-offset-4">
-              Home
-            </Link>
-            <Link href="/discover" className="text-sm font-medium text-purple-600 underline underline-offset-4">
-              Discover
-            </Link>
-            <Link href="/mypage" className="text-sm font-medium hover:underline underline-offset-4">
-              My Page
-            </Link>
-          </nav>
-          <div className="flex items-center gap-4">
-            <Link href="/playlist/create">
-              <Button size="sm" className="bg-purple-600 hover:bg-purple-700">
-                <Music className="mr-2 h-4 w-4" />
-                Create Playlist
-              </Button>
-            </Link>
-            <Link href="/login">
-              <Button variant="ghost" size="sm">
-                Log in
-              </Button>
-            </Link>
-            <Link href="/signup">
-              <Button size="sm" className="bg-purple-600 hover:bg-purple-700">
-                Sign up
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </header>
+      <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} showSearch={true} />
       <main className="flex-1">
         {/* Hero Section */}
         <section className="py-12 md:py-16 bg-gradient-to-b from-purple-50 to-white dark:from-purple-950/20 dark:to-background">

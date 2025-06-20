@@ -11,8 +11,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
-import { Music, Plus, Trash2, Upload, X, Check } from "lucide-react"
+import { Music, Plus, Trash2, Upload, X, Check, Search, Bell } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 
 export default function CreatePlaylistPage() {
   const [title, setTitle] = useState("")
@@ -39,6 +40,8 @@ export default function CreatePlaylistPage() {
   const [importUrl, setImportUrl] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("")
+  const [user, setUser] = useState(null)
 
   // Color options for playlist background
   const colorOptions = [
@@ -141,28 +144,36 @@ export default function CreatePlaylistPage() {
               <span className="text-xl font-bold">playlistt</span>
             </Link>
           </div>
-          <nav className="hidden md:flex items-center gap-6">
-            <Link href="/" className="text-sm font-medium hover:underline underline-offset-4">
-              Home
-            </Link>
+          <div className="flex items-center gap-6">
             <Link href="/discover" className="text-sm font-medium hover:underline underline-offset-4">
               Discover
             </Link>
             <Link href="/mypage" className="text-sm font-medium hover:underline underline-offset-4">
               My Page
             </Link>
-          </nav>
-          <div className="flex items-center gap-4">
-            <Link href="/login">
-              <Button variant="ghost" size="sm">
-                Log in
+            <div className="relative w-64 flex items-center">
+              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Input
+                type="search"
+                placeholder="Search playlists..."
+                className="pl-8"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            <Link href="/playlist/create">
+              <Button size="sm" className="bg-purple-600 hover:bg-purple-700 ml-4">
+                <Music className="mr-2 h-4 w-4" />
+                Create Playlist
               </Button>
             </Link>
-            <Link href="/signup">
-              <Button size="sm" className="bg-purple-600 hover:bg-purple-700">
-                Sign up
-              </Button>
-            </Link>
+            <Button variant="ghost" size="icon">
+              <Bell className="h-5 w-5" />
+            </Button>
+            <Avatar>
+              <AvatarImage src={user?.avatar || "/placeholder.svg"} alt={user?.name || "User"} />
+              <AvatarFallback>{user?.name?.charAt(0) || "U"}</AvatarFallback>
+            </Avatar>
           </div>
         </div>
       </header>
