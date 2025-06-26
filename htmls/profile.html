@@ -247,67 +247,85 @@
         }
 
         .profile-header {
+            position: relative;
+            background-color: #f8fafc;
+        }
+
+        .cover-image {
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .profile-info {
             display: flex;
-            align-items: center;
+            align-items: flex-end;
             gap: 24px;
-            margin-bottom: 32px;
+            padding: 24px 0;
         }
 
         .profile-avatar {
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
-            background-color: #8b5cf6;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 40px;
+            font-size: 48px;
             font-weight: bold;
+            border: 4px solid white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        .profile-info h2 {
-            font-size: 28px;
-            margin-bottom: 8px;
+        .profile-details {
+            flex: 1;
+        }
+
+        .profile-name {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 4px;
         }
 
         .profile-username {
+            font-size: 16px;
             color: #666;
-            font-size: 18px;
-            margin-bottom: 16px;
+            margin-bottom: 8px;
         }
 
         .profile-bio {
-            color: #374151;
-            font-size: 16px;
-            margin-bottom: 20px;
-            line-height: 1.6;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 16px;
+            max-width: 500px;
         }
 
         .profile-stats {
             display: flex;
             gap: 32px;
+            margin-bottom: 16px;
         }
 
         .stat-item {
-            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .stat-number {
-            font-size: 28px;
+            font-size: 18px;
             font-weight: bold;
-            color: #8b5cf6;
         }
 
         .stat-label {
-            font-size: 14px;
+            font-size: 12px;
             color: #666;
         }
 
         .profile-actions {
             display: flex;
             gap: 12px;
-            margin-top: 24px;
         }
 
         /* Settings Section */
@@ -503,6 +521,383 @@
                 padding: 20px;
             }
         }
+
+        /* Tab Styles */
+        .tab-btn {
+            padding: 12px 16px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .tab-btn:hover {
+            color: #8b5cf6;
+        }
+
+        .tab-btn.active {
+            color: #8b5cf6;
+            border-bottom-color: #8b5cf6;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Grid Layout */
+        .grid {
+            display: grid;
+            gap: 32px;
+        }
+
+        .md\:grid-cols-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @media (max-width: 768px) {
+            .md\:grid-cols-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .space-y-6 > * + * {
+            margin-top: 24px;
+        }
+
+        .space-y-4 > * + * {
+            margin-top: 16px;
+        }
+
+        .space-y-3 > * + * {
+            margin-top: 12px;
+        }
+
+        /* Flexbox Utilities */
+        .flex {
+            display: flex;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .items-start {
+            align-items: flex-start;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .gap-2 {
+            gap: 8px;
+        }
+
+        .gap-3 {
+            gap: 12px;
+        }
+
+        .gap-8 {
+            gap: 32px;
+        }
+
+        /* Spacing */
+        .mb-4 {
+            margin-bottom: 16px;
+        }
+
+        .mb-6 {
+            margin-bottom: 24px;
+        }
+
+        .p-3 {
+            padding: 12px;
+        }
+
+        .p-6 {
+            padding: 24px;
+        }
+
+        .mx-4 {
+            margin-left: 16px;
+            margin-right: 16px;
+        }
+
+        /* Text */
+        .text-2xl {
+            font-size: 24px;
+        }
+
+        .text-lg {
+            font-size: 18px;
+        }
+
+        .text-sm {
+            font-size: 14px;
+        }
+
+        .text-xs {
+            font-size: 12px;
+        }
+
+        .font-bold {
+            font-weight: bold;
+        }
+
+        .font-semibold {
+            font-weight: 600;
+        }
+
+        .font-medium {
+            font-weight: 500;
+        }
+
+        .text-gray-600 {
+            color: #666;
+        }
+
+        /* Background */
+        .bg-white {
+            background-color: white;
+        }
+
+        .bg-gray-50 {
+            background-color: #f9fafb;
+        }
+
+        .bg-gray-200 {
+            background-color: #e5e7eb;
+        }
+
+        .bg-purple-500 {
+            background-color: #8b5cf6;
+        }
+
+        .bg-red-100 {
+            background-color: #fee2e2;
+        }
+
+        .bg-green-100 {
+            background-color: #dcfce7;
+        }
+
+        .bg-blue-100 {
+            background-color: #dbeafe;
+        }
+
+        .bg-yellow-100 {
+            background-color: #fef3c7;
+        }
+
+        .bg-purple-100 {
+            background-color: #f3e8ff;
+        }
+
+        /* Border */
+        .border {
+            border: 1px solid #e5e7eb;
+        }
+
+        .border-b {
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .rounded {
+            border-radius: 6px;
+        }
+
+        .rounded-lg {
+            border-radius: 8px;
+        }
+
+        .rounded-full {
+            border-radius: 9999px;
+        }
+
+        /* Shadow */
+        .shadow-sm {
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        /* Hover */
+        .hover\:bg-gray-50:hover {
+            background-color: #f9fafb;
+        }
+
+        /* Height */
+        .h-2 {
+            height: 8px;
+        }
+
+        .h-8 {
+            height: 32px;
+        }
+
+        .w-8 {
+            width: 32px;
+        }
+
+        /* Flex utilities */
+        .flex-1 {
+            flex: 1;
+        }
+
+        /* Display */
+        .hidden {
+            display: none;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .modal-close:hover {
+            color: #333;
+        }
+
+        /* Playlist Cards */
+        .playlists-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .playlist-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .playlist-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .playlist-gradient {
+            position: absolute;
+            inset: 0;
+            opacity: 0.9;
+        }
+
+        .playlist-overlay {
+            position: absolute;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .playlist-content {
+            position: relative;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            justify-content: space-between;
+        }
+
+        .playlist-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 4px;
+        }
+
+        .playlist-creator {
+            font-size: 14px;
+            color: #e5e7eb;
+        }
+
+        .playlist-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 16px;
+        }
+
+        .playlist-tracks {
+            font-size: 14px;
+            color: white;
+        }
+
+        .playlist-likes {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 14px;
+            color: white;
+        }
+
+        .heart-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        .playlist-btn {
+            margin-top: 16px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            backdrop-filter: blur(4px);
+        }
+
+        .playlist-btn:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
     </style>
 </head>
 <body>
@@ -546,131 +941,239 @@
 
     <!-- Main Content -->
     <main>
-        <div class="container">
-            <!-- Page Header -->
-            <div class="page-header">
-                <h1 class="page-title">프로필</h1>
-                <p class="page-subtitle">계정 정보와 설정을 관리하세요</p>
-            </div>
-
-            <!-- Profile Section -->
-            <div class="profile-section">
-                <div class="profile-header">
-                    <div class="profile-avatar">U</div>
-                    <div class="profile-info">
-                        <h2>사용자님</h2>
-                        <p class="profile-username">@username</p>
-                        <p class="profile-bio">음악을 사랑하는 플레이리스트 크리에이터입니다. 다양한 장르의 음악을 수집하고 공유하는 것을 좋아합니다.</p>
+        <!-- Profile Header -->
+        <div class="profile-header">
+            <div class="cover-image"></div>
+            <div class="container">
+                <div class="profile-info">
+                    <div class="profile-avatar">A</div>
+                    <div class="profile-details">
+                        <h1 class="profile-name">Alex Johnson</h1>
+                        <p class="profile-username">@alexjmusic</p>
+                        <p class="profile-bio">Music enthusiast | Playlist curator | Always looking for new sounds</p>
                         <div class="profile-stats">
                             <div class="stat-item">
-                                <div class="stat-number">12</div>
-                                <div class="stat-label">플레이리스트</div>
+                                <span class="stat-number">245</span>
+                                <span class="stat-label">Followers</span>
                             </div>
                             <div class="stat-item">
-                                <div class="stat-number">156</div>
-                                <div class="stat-label">좋아요</div>
+                                <span class="stat-number">132</span>
+                                <span class="stat-label">Following</span>
                             </div>
                             <div class="stat-item">
-                                <div class="stat-number">89</div>
-                                <div class="stat-label">팔로워</div>
-                            </div>
-                            <div class="stat-item">
-                                <div class="stat-number">45</div>
-                                <div class="stat-label">팔로잉</div>
+                                <span class="stat-number">12</span>
+                                <span class="stat-label">Playlists</span>
                             </div>
                         </div>
                         <div class="profile-actions">
-                            <button class="btn btn-primary" onclick="editProfile()">프로필 편집</button>
-                            <button class="btn btn-outline" onclick="shareProfile()">프로필 공유</button>
+                            <button class="btn btn-primary">Follow</button>
+                            <button class="btn btn-outline">Message</button>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Settings Section -->
-            <div class="settings-section">
-                <h2 class="section-title">설정</h2>
-                
-                <div class="settings-group">
-                    <h3 style="margin-bottom: 16px; color: #374151;">알림 설정</h3>
-                    
-                    <div class="settings-item">
-                        <div>
-                            <div class="settings-label">이메일 알림</div>
-                            <div class="settings-description">새로운 팔로워나 좋아요에 대한 이메일 알림을 받습니다</div>
-                        </div>
-                        <div class="settings-control">
-                            <label class="switch">
-                                <input type="checkbox" checked>
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="settings-item">
-                        <div>
-                            <div class="settings-label">푸시 알림</div>
-                            <div class="settings-description">브라우저 푸시 알림을 받습니다</div>
-                        </div>
-                        <div class="settings-control">
-                            <label class="switch">
-                                <input type="checkbox">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
+        <!-- Profile Content -->
+        <div class="container" style="margin-top:32px; margin-bottom:32px;">
+            <div class="profile-content">
+                <div class="border-b">
+                    <div class="flex">
+                        <button class="tab-btn active" id="tabOverview">Overview</button>
+                        <button class="tab-btn" id="tabPlaylists">Playlists</button>
+                        <button class="tab-btn" id="tabLiked">Liked</button>
+                        <button class="tab-btn" id="tabActivity">Activity</button>
                     </div>
                 </div>
-
-                <div class="settings-group">
-                    <h3 style="margin-bottom: 16px; color: #374151;">개인정보</h3>
-                    
-                    <div class="settings-item">
-                        <div>
-                            <div class="settings-label">프로필 공개</div>
-                            <div class="settings-description">다른 사용자가 내 프로필을 볼 수 있습니다</div>
-                        </div>
-                        <div class="settings-control">
-                            <label class="switch">
-                                <input type="checkbox" checked>
-                                <span class="slider"></span>
-                            </label>
+                <div class="p-6">
+                    <!-- Overview Tab -->
+                    <div class="tab-content active" id="overviewContent">
+                        <div class="grid gap-8 md:grid-cols-2">
+                            <div class="space-y-6">
+                                <div class="bg-white rounded-lg border shadow-sm p-6">
+                                    <h3 class="text-lg font-semibold mb-4">Top Genres</h3>
+                                    <div class="space-y-3">
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-sm">Pop</span>
+                                            <div class="flex-1 mx-4">
+                                                <div class="bg-gray-200 rounded-full h-2">
+                                                    <div class="bg-purple-500 h-2 rounded-full" style="width: 35%"></div>
+                                                </div>
+                                            </div>
+                                            <span class="text-sm text-gray-600">35%</span>
+                                        </div>
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-sm">Indie</span>
+                                            <div class="flex-1 mx-4">
+                                                <div class="bg-gray-200 rounded-full h-2">
+                                                    <div class="bg-purple-500 h-2 rounded-full" style="width: 25%"></div>
+                                                </div>
+                                            </div>
+                                            <span class="text-sm text-gray-600">25%</span>
+                                        </div>
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-sm">Electronic</span>
+                                            <div class="flex-1 mx-4">
+                                                <div class="bg-gray-200 rounded-full h-2">
+                                                    <div class="bg-purple-500 h-2 rounded-full" style="width: 20%"></div>
+                                                </div>
+                                            </div>
+                                            <span class="text-sm text-gray-600">20%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bg-white rounded-lg border shadow-sm p-6">
+                                    <h3 class="text-lg font-semibold mb-4">Top Artists</h3>
+                                    <div class="space-y-3">
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-sm">The Weeknd</span>
+                                            <span class="text-sm text-gray-600">142 plays</span>
+                                        </div>
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-sm">Dua Lipa</span>
+                                            <span class="text-sm text-gray-600">98 plays</span>
+                                        </div>
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-sm">Tame Impala</span>
+                                            <span class="text-sm text-gray-600">87 plays</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-y-6">
+                                <div class="bg-white rounded-lg border shadow-sm p-6">
+                                    <h3 class="text-lg font-semibold mb-4">Listening Stats</h3>
+                                    <div class="space-y-4">
+                                        <div class="flex justify-between">
+                                            <span class="text-sm">Total Listen Time</span>
+                                            <span class="text-sm font-medium">423 hours</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-sm">Total Playlists</span>
+                                            <span class="text-sm font-medium">12</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-sm">Total Likes</span>
+                                            <span class="text-sm font-medium">347</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-sm">Member Since</span>
+                                            <span class="text-sm font-medium">March 2023</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bg-white rounded-lg border shadow-sm p-6">
+                                    <h3 class="text-lg font-semibold mb-4">Recent Activity</h3>
+                                    <div class="space-y-3">
+                                        <div class="flex items-start gap-3">
+                                            <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+                                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" style="color:#ef4444;">
+                                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                                </svg>
+                                            </div>
+                                            <div class="flex-1">
+                                                <div class="text-sm">Liked 'Indie Folk Favorites'</div>
+                                                <div class="text-xs text-gray-600">2 hours ago</div>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-start gap-3">
+                                            <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" style="color:#10b981;">
+                                                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                                                </svg>
+                                            </div>
+                                            <div class="flex-1">
+                                                <div class="text-sm">Created 'Summer Vibes 2024'</div>
+                                                <div class="text-xs text-gray-600">2 days ago</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="settings-item">
-                        <div>
-                            <div class="settings-label">플레이리스트 공개</div>
-                            <div class="settings-description">기본적으로 새 플레이리스트를 공개로 만듭니다</div>
+                    <!-- Playlists Tab -->
+                    <div class="tab-content" id="playlistsContent" style="display:none;">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-2xl font-bold">Playlists</h2>
+                            <div class="flex gap-2">
+                                <button class="btn btn-outline btn-sm">Public</button>
+                                <button class="btn btn-outline btn-sm">Private</button>
+                            </div>
                         </div>
-                        <div class="settings-control">
-                            <label class="switch">
-                                <input type="checkbox" checked>
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="settings-group">
-                    <h3 style="margin-bottom: 16px; color: #374151;">계정</h3>
-                    
-                    <div class="settings-item">
-                        <div>
-                            <div class="settings-label">비밀번호 변경</div>
-                            <div class="settings-description">계정 비밀번호를 변경합니다</div>
-                        </div>
-                        <div class="settings-control">
-                            <button class="btn btn-outline btn-sm" onclick="changePassword()">변경</button>
+                        <div class="playlists-grid" id="userPlaylistsGrid">
+                            <!-- Playlists will be populated by JavaScript -->
                         </div>
                     </div>
 
-                    <div class="settings-item">
-                        <div>
-                            <div class="settings-label">계정 삭제</div>
-                            <div class="settings-description">계정과 모든 데이터를 영구적으로 삭제합니다</div>
+                    <!-- Liked Tab -->
+                    <div class="tab-content" id="likedContent" style="display:none;">
+                        <h2 class="text-2xl font-bold mb-6">Liked Playlists</h2>
+                        <div class="playlists-grid" id="userLikedPlaylistsGrid">
+                            <!-- Liked playlists will be populated by JavaScript -->
                         </div>
-                        <div class="settings-control">
-                            <button class="btn btn-outline btn-sm" onclick="deleteAccount()" style="color: #dc2626; border-color: #dc2626;">삭제</button>
+                    </div>
+
+                    <!-- Activity Tab -->
+                    <div class="tab-content" id="activityContent" style="display:none;">
+                        <h2 class="text-2xl font-bold mb-6">Recent Activity</h2>
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-3 p-3 hover:bg-gray-50 rounded-lg">
+                                <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+                                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" style="color:#ef4444;">
+                                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="text-sm">Liked the playlist 'Indie Folk Favorites'</div>
+                                    <div class="text-xs text-gray-600">2 hours ago</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 hover:bg-gray-50 rounded-lg">
+                                <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" style="color:#10b981;">
+                                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="text-sm">Created a new playlist 'Summer Vibes 2024'</div>
+                                    <div class="text-xs text-gray-600">2 days ago</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 hover:bg-gray-50 rounded-lg">
+                                <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" style="color:#3b82f6;">
+                                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="text-sm">Followed @musiclover</div>
+                                    <div class="text-xs text-gray-600">3 days ago</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 hover:bg-gray-50 rounded-lg">
+                                <div class="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
+                                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" style="color:#f59e0b;">
+                                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="text-sm">Added 3 tracks to 'Workout Motivation'</div>
+                                    <div class="text-xs text-gray-600">5 days ago</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 hover:bg-gray-50 rounded-lg">
+                                <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
+                                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" style="color:#8b5cf6;">
+                                        <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/>
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="text-sm">Shared 'Chill Evenings' playlist</div>
+                                    <div class="text-xs text-gray-600">1 week ago</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -696,6 +1199,19 @@
             </div>
         </div>
     </footer>
+
+    <!-- Modal -->
+    <div class="modal" id="playlistModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">플레이리스트 제목</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div id="modalContent">
+                <!-- Modal content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
 
     <script>
         // User dropdown functionality
@@ -749,6 +1265,212 @@
                     console.log(`${settingName} 설정이 ${this.checked ? '활성화' : '비활성화'}되었습니다.`);
                 });
             });
+        });
+
+        // Tab functionality
+        function initTabs() {
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const target = button.id.replace('tab', '').toLowerCase();
+                    
+                    // Remove active class from all buttons and contents
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Add active class to clicked button and corresponding content
+                    button.classList.add('active');
+                    const content = document.getElementById(target + 'Content');
+                    if (content) {
+                        content.classList.add('active');
+                    }
+                });
+            });
+        }
+
+        // User playlists data
+        const userPlaylists = [
+            {
+                title: "Summer Vibes 2024",
+                tracks: 24,
+                likes: 128,
+                color: "linear-gradient(135deg, #fb923c, #ec4899)",
+                lastUpdated: "2 days ago",
+                isPublic: true
+            },
+            {
+                title: "Chill Evenings",
+                tracks: 18,
+                likes: 76,
+                color: "linear-gradient(135deg, #60a5fa, #8b5cf6)",
+                lastUpdated: "1 week ago",
+                isPublic: true
+            },
+            {
+                title: "Workout Motivation",
+                tracks: 32,
+                likes: 214,
+                color: "linear-gradient(135deg, #4ade80, #06b6d4)",
+                lastUpdated: "3 days ago",
+                isPublic: true
+            },
+            {
+                title: "Indie Discoveries",
+                tracks: 15,
+                likes: 42,
+                color: "linear-gradient(135deg, #fbbf24, #f97316)",
+                lastUpdated: "2 weeks ago",
+                isPublic: false
+            }
+        ];
+
+        // User liked playlists data
+        const userLikedPlaylists = [
+            {
+                title: "Road Trip",
+                creator: "traveler",
+                tracks: 28,
+                likes: 1.7,
+                color: "linear-gradient(135deg, #fbbf24, #f97316)"
+            },
+            {
+                title: "Study Focus",
+                creator: "brainpower",
+                tracks: 15,
+                likes: 0.8,
+                color: "linear-gradient(135deg, #818cf8, #3b82f6)"
+            },
+            {
+                title: "Party Anthems",
+                creator: "partypeople",
+                tracks: 22,
+                likes: 3.1,
+                color: "linear-gradient(135deg, #f472b6, #ef4444)"
+            }
+        ];
+
+        // Populate user playlists
+        function populateUserPlaylists() {
+            const grid = document.getElementById('userPlaylistsGrid');
+            if (!grid) return;
+            
+            grid.innerHTML = '';
+            userPlaylists.forEach(playlist => {
+                const card = document.createElement('div');
+                card.className = 'playlist-card';
+                card.onclick = () => openModal(playlist);
+
+                card.innerHTML = `
+                    <div class="playlist-gradient" style="background: ${playlist.color}"></div>
+                    <div class="playlist-overlay"></div>
+                    <div class="playlist-content">
+                        <div>
+                            <h3 class="playlist-title">${playlist.title}</h3>
+                            <p class="playlist-creator">Last updated: ${playlist.lastUpdated}</p>
+                        </div>
+                        <div class="playlist-stats">
+                            <div class="playlist-tracks">${playlist.tracks} tracks</div>
+                            <div class="playlist-likes">
+                                <svg class="heart-icon" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                </svg>
+                                ${playlist.likes}
+                            </div>
+                        </div>
+                        <button class="btn playlist-btn">
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                            Play
+                        </button>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+        }
+
+        // Populate user liked playlists
+        function populateUserLikedPlaylists() {
+            const grid = document.getElementById('userLikedPlaylistsGrid');
+            if (!grid) return;
+            
+            grid.innerHTML = '';
+            userLikedPlaylists.forEach(playlist => {
+                const card = document.createElement('div');
+                card.className = 'playlist-card';
+                card.onclick = () => openModal(playlist);
+
+                card.innerHTML = `
+                    <div class="playlist-gradient" style="background: ${playlist.color}"></div>
+                    <div class="playlist-overlay"></div>
+                    <div class="playlist-content">
+                        <div>
+                            <h3 class="playlist-title">${playlist.title}</h3>
+                            <p class="playlist-creator">by @${playlist.creator}</p>
+                        </div>
+                        <div class="playlist-stats">
+                            <div class="playlist-tracks">${playlist.tracks} tracks</div>
+                            <div class="playlist-likes">
+                                <svg class="heart-icon" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                </svg>
+                                ${playlist.likes}k
+                            </div>
+                        </div>
+                        <button class="btn playlist-btn">
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                            Play
+                        </button>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+        }
+
+        // Modal functions
+        function openModal(playlist) {
+            const modal = document.getElementById('playlistModal');
+            const title = document.getElementById('modalTitle');
+            const content = document.getElementById('modalContent');
+
+            title.textContent = playlist.title;
+            content.innerHTML = `
+                <p><strong>Creator:</strong> @${playlist.creator || 'alexjmusic'}</p>
+                <p><strong>Tracks:</strong> ${playlist.tracks}</p>
+                <p><strong>Likes:</strong> ${playlist.likes}${playlist.likes < 10 ? '' : 'k'}</p>
+                <p>이 플레이리스트를 재생하려면 로그인이 필요합니다.</p>
+                <div style="margin-top: 20px;">
+                    <a href="login.html" class="btn btn-primary">로그인</a>
+                    <a href="signup.html" class="btn btn-outline">회원가입</a>
+                </div>
+            `;
+
+            modal.classList.add('show');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('playlistModal');
+            modal.classList.remove('show');
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('playlistModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            initTabs();
+            populateUserPlaylists();
+            populateUserLikedPlaylists();
         });
     </script>
 </body>

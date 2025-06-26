@@ -319,56 +319,93 @@
 
         .playlists-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
         }
 
         .playlist-card {
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
+            position: relative;
             overflow: hidden;
-            transition: all 0.2s;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            cursor: pointer;
         }
 
         .playlist-card:hover {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
-        .playlist-cover {
-            height: 120px;
-            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+        .playlist-gradient {
+            position: absolute;
+            inset: 0;
+            opacity: 0.9;
+        }
+
+        .playlist-overlay {
+            position: absolute;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .playlist-content {
+            position: relative;
+            padding: 24px;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 24px;
-        }
-
-        .playlist-info {
-            padding: 16px;
+            flex-direction: column;
+            height: 100%;
+            justify-content: space-between;
         }
 
         .playlist-title {
-            font-size: 16px;
-            font-weight: 600;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
             margin-bottom: 4px;
         }
 
-        .playlist-meta {
+        .playlist-creator {
             font-size: 14px;
-            color: #666;
-            margin-bottom: 12px;
+            color: #e5e7eb;
         }
 
-        .playlist-actions {
+        .playlist-stats {
             display: flex;
-            gap: 8px;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 16px;
         }
 
-        .btn-xs {
-            padding: 4px 8px;
-            font-size: 12px;
+        .playlist-tracks {
+            font-size: 14px;
+            color: white;
+        }
+
+        .playlist-likes {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 14px;
+            color: white;
+        }
+
+        .heart-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        .playlist-btn {
+            margin-top: 16px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            backdrop-filter: blur(4px);
+        }
+
+        .playlist-btn:hover {
+            background-color: rgba(255, 255, 255, 0.3);
         }
 
         /* Empty State */
@@ -495,6 +532,249 @@
                 padding: 20px;
             }
         }
+
+        /* Tab Styles */
+        .tab-btn {
+            padding: 12px 16px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .tab-btn:hover {
+            color: #8b5cf6;
+        }
+
+        .tab-btn.active {
+            color: #8b5cf6;
+            border-bottom-color: #8b5cf6;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Grid Layout */
+        .grid {
+            display: grid;
+            gap: 32px;
+        }
+
+        .md\:grid-cols-\[300px_1fr\] {
+            grid-template-columns: 300px 1fr;
+        }
+
+        @media (max-width: 768px) {
+            .md\:grid-cols-\[300px_1fr\] {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .space-y-6 > * + * {
+            margin-top: 24px;
+        }
+
+        .space-y-4 > * + * {
+            margin-top: 16px;
+        }
+
+        .space-y-2 > * + * {
+            margin-top: 8px;
+        }
+
+        /* Flexbox Utilities */
+        .flex {
+            display: flex;
+        }
+
+        .flex-col {
+            flex-direction: column;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .items-start {
+            align-items: flex-start;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .justify-center {
+            justify-content: center;
+        }
+
+        .gap-2 {
+            gap: 8px;
+        }
+
+        .gap-3 {
+            gap: 12px;
+        }
+
+        .gap-8 {
+            gap: 32px;
+        }
+
+        /* Spacing */
+        .mb-6 {
+            margin-bottom: 24px;
+        }
+
+        .p-2 {
+            padding: 8px;
+        }
+
+        .p-3 {
+            padding: 12px;
+        }
+
+        .p-4 {
+            padding: 16px;
+        }
+
+        .p-6 {
+            padding: 24px;
+        }
+
+        .px-2 {
+            padding-left: 8px;
+            padding-right: 8px;
+        }
+
+        .py-1 {
+            padding-top: 4px;
+            padding-bottom: 4px;
+        }
+
+        /* Text */
+        .text-2xl {
+            font-size: 24px;
+        }
+
+        .text-lg {
+            font-size: 18px;
+        }
+
+        .text-sm {
+            font-size: 14px;
+        }
+
+        .text-xs {
+            font-size: 12px;
+        }
+
+        .font-bold {
+            font-weight: bold;
+        }
+
+        .font-semibold {
+            font-weight: 600;
+        }
+
+        .font-medium {
+            font-weight: 500;
+        }
+
+        .text-gray-600 {
+            color: #666;
+        }
+
+        /* Background */
+        .bg-white {
+            background-color: white;
+        }
+
+        .bg-gray-50 {
+            background-color: #f9fafb;
+        }
+
+        .bg-gray-100 {
+            background-color: #f3f4f6;
+        }
+
+        .bg-red-100 {
+            background-color: #fee2e2;
+        }
+
+        .bg-green-100 {
+            background-color: #dcfce7;
+        }
+
+        .bg-purple-100 {
+            background-color: #f3e8ff;
+        }
+
+        .bg-yellow-100 {
+            background-color: #fef3c7;
+        }
+
+        .bg-blue-100 {
+            background-color: #dbeafe;
+        }
+
+        /* Border */
+        .border {
+            border: 1px solid #e5e7eb;
+        }
+
+        .border-b {
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .rounded {
+            border-radius: 6px;
+        }
+
+        .rounded-lg {
+            border-radius: 8px;
+        }
+
+        .rounded-full {
+            border-radius: 9999px;
+        }
+
+        /* Shadow */
+        .shadow-sm {
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        /* Hover */
+        .hover\:bg-gray-50:hover {
+            background-color: #f9fafb;
+        }
+
+        .hover\:bg-gray-100:hover {
+            background-color: #f3f4f6;
+        }
+
+        /* Max Width */
+        .max-w-md {
+            max-width: 28rem;
+        }
+
+        /* Display */
+        .hidden {
+            display: none;
+        }
+
+        /* Button Sizes */
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -537,68 +817,265 @@
     </header>
 
     <!-- Main Content -->
-    <main>
-        <div class="container">
-            <!-- Page Header -->
-            <div class="page-header">
-                <h1 class="page-title">마이페이지</h1>
-                <p class="page-subtitle">내 플레이리스트와 활동을 관리하세요</p>
+    <main class="container" style="margin-top:32px; margin-bottom:32px;">
+      <div class="grid gap-8 md:grid-cols-[300px_1fr]">
+        <!-- Profile Sidebar -->
+        <div class="space-y-6">
+          <div class="bg-white rounded-lg border shadow-sm p-6">
+            <div class="flex flex-col items-center space-y-4">
+              <div class="w-24 h-24 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-2xl font-bold">A</div>
+              <div class="space-y-1 text-center">
+                <h2 class="text-2xl font-bold">Alex Johnson</h2>
+                <p class="text-sm text-gray-600">@alexjmusic</p>
+              </div>
+              <p class="text-center text-sm">Music enthusiast | Playlist curator | Always looking for new sounds</p>
+              <div class="flex w-full justify-between text-center text-sm">
+                <div>
+                  <p class="font-bold">245</p>
+                  <p class="text-gray-600">Followers</p>
+                </div>
+                <div>
+                  <p class="font-bold">132</p>
+                  <p class="text-gray-600">Following</p>
+                </div>
+                <div>
+                  <p class="font-bold">4</p>
+                  <p class="text-gray-600">Playlists</p>
+                </div>
+              </div>
+              <button class="w-full btn btn-outline">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" style="margin-right:8px;">
+                  <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                </svg>
+                Edit Profile
+              </button>
             </div>
-
-            <!-- Profile Section -->
-            <div class="profile-section">
-                <div class="profile-header">
-                    <div class="profile-avatar">U</div>
-                    <div class="profile-info">
-                        <h2>사용자님</h2>
-                        <p class="profile-username">@username</p>
-                        <div class="profile-stats">
-                            <div class="stat-item">
-                                <div class="stat-number">12</div>
-                                <div class="stat-label">플레이리스트</div>
-                            </div>
-                            <div class="stat-item">
-                                <div class="stat-number">156</div>
-                                <div class="stat-label">좋아요</div>
-                            </div>
-                            <div class="stat-item">
-                                <div class="stat-number">89</div>
-                                <div class="stat-label">팔로워</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+          </div>
+          <div class="bg-white rounded-lg border shadow-sm">
+            <div class="p-4 border-b">
+              <h3 class="text-lg font-semibold">Quick Links</h3>
             </div>
-
-            <!-- My Playlists Section -->
-            <div class="playlists-section">
-                <div class="section-header">
-                    <h2 class="section-title">내 플레이리스트</h2>
-                    <a href="playlist-create.html" class="btn btn-primary btn-sm">
-                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
-                        </svg>
-                        새 플레이리스트 만들기
-                    </a>
-                </div>
-
-                <div class="playlists-grid" id="myPlaylistsGrid">
-                    <!-- Playlists will be populated by JavaScript -->
-                </div>
-
-                <!-- Empty State -->
-                <div class="empty-state" id="emptyState" style="display: none;">
-                    <svg class="empty-icon" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
-                    </svg>
-                    <h3 class="empty-title">플레이리스트가 없습니다</h3>
-                    <p class="empty-description">첫 번째 플레이리스트를 만들어보세요!</p>
-                    <a href="playlist-create.html" class="btn btn-primary">
-                        플레이리스트 만들기
-                    </a>
-                </div>
+            <div class="p-4">
+              <div class="space-y-2">
+                <a href="#profile" class="flex items-center gap-2 rounded-md p-2 hover:bg-gray-100">
+                  <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" style="color:#8b5cf6;">
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                  </svg>
+                  <span class="text-sm">Profile</span>
+                </a>
+                <a href="#liked" class="flex items-center gap-2 rounded-md p-2 hover:bg-gray-100">
+                  <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" style="color:#8b5cf6;">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                  </svg>
+                  <span class="text-sm">Liked Playlists</span>
+                </a>
+                <a href="#recent" class="flex items-center gap-2 rounded-md p-2 hover:bg-gray-100">
+                  <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" style="color:#8b5cf6;">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                  </svg>
+                  <span class="text-sm">Recently Played</span>
+                </a>
+                <a href="#activity" class="flex items-center gap-2 rounded-md p-2 hover:bg-gray-100">
+                  <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" style="color:#8b5cf6;">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                  </svg>
+                  <span class="text-sm">Activity</span>
+                </a>
+                <a href="#settings" class="flex items-center gap-2 rounded-md p-2 hover:bg-gray-100">
+                  <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" style="color:#8b5cf6;">
+                    <path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/>
+                  </svg>
+                  <span class="text-sm">Settings</span>
+                </a>
+              </div>
             </div>
+          </div>
         </div>
+
+        <!-- Main Content Area -->
+        <div class="space-y-6">
+          <div class="bg-white rounded-lg border shadow-sm">
+            <div class="border-b">
+              <div class="flex">
+                <button class="tab-btn active" id="tabPlaylists">My Playlists</button>
+                <button class="tab-btn" id="tabLiked">Liked Playlists</button>
+                <button class="tab-btn" id="tabRecent">Recently Played</button>
+                <button class="tab-btn" id="tabActivity">Activity</button>
+                <button class="tab-btn" id="tabSettings">Settings</button>
+              </div>
+            </div>
+            <div class="p-6">
+              <!-- My Playlists Tab -->
+              <div class="tab-content active" id="playlistsContent">
+                <div class="flex justify-between items-center mb-6">
+                  <h2 class="text-2xl font-bold">My Playlists</h2>
+                  <a href="playlist-create.html" class="btn btn-primary btn-sm">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" style="margin-right:8px;">
+                      <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                    </svg>
+                    Create Playlist
+                  </a>
+                </div>
+                <div class="playlists-grid" id="myPlaylistsGrid">
+                  <!-- Playlists will be populated by JavaScript -->
+                </div>
+              </div>
+
+              <!-- Liked Playlists Tab -->
+              <div class="tab-content" id="likedContent" style="display:none;">
+                <h2 class="text-2xl font-bold mb-6">Liked Playlists</h2>
+                <div class="playlists-grid" id="likedPlaylistsGrid">
+                  <!-- Liked playlists will be populated by JavaScript -->
+                </div>
+              </div>
+
+              <!-- Recently Played Tab -->
+              <div class="tab-content" id="recentContent" style="display:none;">
+                <h2 class="text-2xl font-bold mb-6">Recently Played</h2>
+                <ul class="space-y-4">
+                  <li class="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg">
+                    <div class="w-12 h-12 bg-gradient-to-br from-orange-400 to-pink-500 rounded-lg flex items-center justify-center text-white">🎵</div>
+                    <div class="flex-1">
+                      <div class="font-medium">Summer Vibes 2024</div>
+                      <div class="text-sm text-gray-600">2 hours ago</div>
+                    </div>
+                    <button class="btn btn-sm btn-outline">▶ Play</button>
+                  </li>
+                  <li class="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg">
+                    <div class="w-12 h-12 bg-gradient-to-br from-blue-400 to-purple-500 rounded-lg flex items-center justify-center text-white">🎵</div>
+                    <div class="flex-1">
+                      <div class="font-medium">Chill Evenings</div>
+                      <div class="text-sm text-gray-600">Yesterday</div>
+                    </div>
+                    <button class="btn btn-sm btn-outline">▶ Play</button>
+                  </li>
+                  <li class="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg">
+                    <div class="w-12 h-12 bg-gradient-to-br from-green-400 to-cyan-500 rounded-lg flex items-center justify-center text-white">🎵</div>
+                    <div class="flex-1">
+                      <div class="font-medium">Workout Motivation</div>
+                      <div class="text-sm text-gray-600">3 days ago</div>
+                    </div>
+                    <button class="btn btn-sm btn-outline">▶ Play</button>
+                  </li>
+                  <li class="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg">
+                    <div class="w-12 h-12 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg flex items-center justify-center text-white">🎵</div>
+                    <div class="flex-1">
+                      <div class="font-medium">Road Trip</div>
+                      <div class="text-sm text-gray-600">1 week ago</div>
+                    </div>
+                    <button class="btn btn-sm btn-outline">▶ Play</button>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- Activity Tab -->
+              <div class="tab-content" id="activityContent" style="display:none;">
+                <h2 class="text-2xl font-bold mb-6">Recent Activity</h2>
+                <div class="space-y-4">
+                  <div class="flex items-start gap-3 p-3 hover:bg-gray-50 rounded-lg">
+                    <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+                      <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" style="color:#ef4444;">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                      </svg>
+                    </div>
+                    <div class="flex-1">
+                      <div class="text-sm">You liked the playlist 'Indie Folk Favorites'</div>
+                      <div class="text-xs text-gray-600">2 hours ago</div>
+                    </div>
+                  </div>
+                  <div class="flex items-start gap-3 p-3 hover:bg-gray-50 rounded-lg">
+                    <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                      <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" style="color:#10b981;">
+                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                      </svg>
+                    </div>
+                    <div class="flex-1">
+                      <div class="text-sm">You created a new playlist 'Summer Vibes 2024'</div>
+                      <div class="text-xs text-gray-600">2 days ago</div>
+                    </div>
+                  </div>
+                  <div class="flex items-start gap-3 p-3 hover:bg-gray-50 rounded-lg">
+                    <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                      <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" style="color:#3b82f6;">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                      </svg>
+                    </div>
+                    <div class="flex-1">
+                      <div class="text-sm">You followed @musiclover</div>
+                      <div class="text-xs text-gray-600">3 days ago</div>
+                    </div>
+                  </div>
+                  <div class="flex items-start gap-3 p-3 hover:bg-gray-50 rounded-lg">
+                    <div class="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
+                      <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" style="color:#f59e0b;">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                      </svg>
+                    </div>
+                    <div class="flex-1">
+                      <div class="text-sm">You added 3 tracks to 'Workout Motivation'</div>
+                      <div class="text-xs text-gray-600">5 days ago</div>
+                    </div>
+                  </div>
+                  <div class="flex items-start gap-3 p-3 hover:bg-gray-50 rounded-lg">
+                    <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
+                      <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" style="color:#8b5cf6;">
+                        <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/>
+                      </svg>
+                    </div>
+                    <div class="flex-1">
+                      <div class="text-sm">You shared 'Chill Evenings' playlist</div>
+                      <div class="text-xs text-gray-600">1 week ago</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Settings Tab -->
+              <div class="tab-content" id="settingsContent" style="display:none;">
+                <h2 class="text-2xl font-bold mb-6">Settings</h2>
+                <div class="space-y-6 max-w-md">
+                  <div class="flex items-center justify-between">
+                    <label for="emailNotif" class="text-sm font-medium">Email Notifications</label>
+                    <input type="checkbox" id="emailNotif" checked>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <label for="pushNotif" class="text-sm font-medium">Push Notifications</label>
+                    <input type="checkbox" id="pushNotif">
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <label for="themeSelect" class="text-sm font-medium">Theme</label>
+                    <select id="themeSelect" class="border rounded px-2 py-1">
+                      <option>Light</option>
+                      <option>Dark</option>
+                      <option>System</option>
+                    </select>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <label for="langSelect" class="text-sm font-medium">Language</label>
+                    <select id="langSelect" class="border rounded px-2 py-1">
+                      <option>한국어</option>
+                      <option>English</option>
+                    </select>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <label for="privacySelect" class="text-sm font-medium">Profile Privacy</label>
+                    <select id="privacySelect" class="border rounded px-2 py-1">
+                      <option>Public</option>
+                      <option>Private</option>
+                      <option>Friends Only</option>
+                    </select>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <label for="autoPlay" class="text-sm font-medium">Auto-play</label>
+                    <input type="checkbox" id="autoPlay" checked>
+                  </div>
+                  <button class="btn btn-primary">Save Settings</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
 
     <!-- Footer -->
@@ -621,6 +1098,175 @@
     </footer>
 
     <script>
+        // Tab functionality
+        function initTabs() {
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const target = button.id.replace('tab', '').toLowerCase();
+                    
+                    // Remove active class from all buttons and contents
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Add active class to clicked button and corresponding content
+                    button.classList.add('active');
+                    const content = document.getElementById(target + 'Content');
+                    if (content) {
+                        content.classList.add('active');
+                    }
+                });
+            });
+        }
+
+        // My playlists data
+        const myPlaylists = [
+            {
+                title: "Summer Vibes 2024",
+                tracks: 24,
+                likes: 128,
+                color: "linear-gradient(135deg, #fb923c, #ec4899)",
+                lastUpdated: "2 days ago"
+            },
+            {
+                title: "Chill Evenings",
+                tracks: 18,
+                likes: 76,
+                color: "linear-gradient(135deg, #60a5fa, #8b5cf6)",
+                lastUpdated: "1 week ago"
+            },
+            {
+                title: "Workout Motivation",
+                tracks: 32,
+                likes: 214,
+                color: "linear-gradient(135deg, #4ade80, #06b6d4)",
+                lastUpdated: "3 days ago"
+            },
+            {
+                title: "Indie Discoveries",
+                tracks: 15,
+                likes: 42,
+                color: "linear-gradient(135deg, #fbbf24, #f97316)",
+                lastUpdated: "2 weeks ago"
+            }
+        ];
+
+        // Liked playlists data
+        const likedPlaylists = [
+            {
+                title: "Road Trip",
+                creator: "traveler",
+                tracks: 28,
+                likes: 1.7,
+                color: "linear-gradient(135deg, #fbbf24, #f97316)"
+            },
+            {
+                title: "Study Focus",
+                creator: "brainpower",
+                tracks: 15,
+                likes: 0.8,
+                color: "linear-gradient(135deg, #818cf8, #3b82f6)"
+            },
+            {
+                title: "Party Anthems",
+                creator: "partypeople",
+                tracks: 22,
+                likes: 3.1,
+                color: "linear-gradient(135deg, #f472b6, #ef4444)"
+            }
+        ];
+
+        // Populate my playlists
+        function populateMyPlaylists() {
+            const grid = document.getElementById('myPlaylistsGrid');
+            if (!grid) return;
+            
+            grid.innerHTML = '';
+            myPlaylists.forEach(playlist => {
+                const card = document.createElement('div');
+                card.className = 'playlist-card';
+                card.onclick = () => openModal(playlist);
+
+                card.innerHTML = `
+                    <div class="playlist-gradient" style="background: ${playlist.color}"></div>
+                    <div class="playlist-overlay"></div>
+                    <div class="playlist-content">
+                        <div>
+                            <h3 class="playlist-title">${playlist.title}</h3>
+                            <p class="playlist-creator">Last updated: ${playlist.lastUpdated}</p>
+                        </div>
+                        <div class="playlist-stats">
+                            <div class="playlist-tracks">${playlist.tracks} tracks</div>
+                            <div class="playlist-likes">
+                                <svg class="heart-icon" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                </svg>
+                                ${playlist.likes}
+                            </div>
+                        </div>
+                        <button class="btn playlist-btn">
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                            Play
+                        </button>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+        }
+
+        // Populate liked playlists
+        function populateLikedPlaylists() {
+            const grid = document.getElementById('likedPlaylistsGrid');
+            if (!grid) return;
+            
+            grid.innerHTML = '';
+            likedPlaylists.forEach(playlist => {
+                const card = document.createElement('div');
+                card.className = 'playlist-card';
+                card.onclick = () => openModal(playlist);
+
+                card.innerHTML = `
+                    <div class="playlist-gradient" style="background: ${playlist.color}"></div>
+                    <div class="playlist-overlay"></div>
+                    <div class="playlist-content">
+                        <div>
+                            <h3 class="playlist-title">${playlist.title}</h3>
+                            <p class="playlist-creator">by @${playlist.creator}</p>
+                        </div>
+                        <div class="playlist-stats">
+                            <div class="playlist-tracks">${playlist.tracks} tracks</div>
+                            <div class="playlist-likes">
+                                <svg class="heart-icon" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                </svg>
+                                ${playlist.likes}k
+                            </div>
+                        </div>
+                        <button class="btn playlist-btn">
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                            Play
+                        </button>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            initTabs();
+            populateMyPlaylists();
+            populateLikedPlaylists();
+        });
+
         // Sample user playlists data
         const userPlaylists = [
             {

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>플레이리스트 상세 - Playlistt</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f8fafc;
+      color: #222;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+    header, footer {
+      background: #fff;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 16px 0;
+    }
+    .header-content, .footer-content {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo { display: flex; align-items: center; gap: 8px; text-decoration: none; color: inherit; }
+    .logo-icon { width: 24px; height: 24px; color: #8b5cf6; }
+    .logo-text { font-size: 20px; font-weight: bold; }
+    .nav-links { display: flex; gap: 16px; }
+    .nav-link { color: #666; text-decoration: none; font-size: 14px; font-weight: 500; }
+    .nav-link:hover { color: #333; text-decoration: underline; }
+    main { flex: 1; padding: 32px 0; }
+    .playlist-header {
+      display: flex; gap: 32px; align-items: center; background: linear-gradient(135deg, #fbbf24 0%, #ec4899 100%); border-radius: 16px; padding: 32px; color: #fff; margin-bottom: 32px;
+    }
+    .playlist-cover { width: 200px; height: 200px; border-radius: 12px; object-fit: cover; box-shadow: 0 4px 16px rgba(0,0,0,0.12); background: #fff; }
+    .playlist-info { flex: 1; }
+    .playlist-title { font-size: 2.2rem; font-weight: bold; margin-bottom: 8px; }
+    .playlist-desc { font-size: 1rem; margin-bottom: 16px; }
+    .playlist-meta { font-size: 14px; opacity: 0.9; margin-bottom: 16px; }
+    .playlist-actions { display: flex; gap: 12px; margin-bottom: 8px; }
+    .btn { padding: 8px 16px; border-radius: 6px; border: none; font-size: 14px; font-weight: 500; cursor: pointer; transition: background 0.2s; }
+    .btn-primary { background: #fff; color: #a21caf; }
+    .btn-primary:hover { background: #f3e8ff; }
+    .btn-outline { background: transparent; border: 1px solid #fff; color: #fff; }
+    .btn-outline:hover { background: rgba(255,255,255,0.1); }
+    .tabs { display: flex; gap: 8px; margin-bottom: 24px; }
+    .tab-btn { background: #f3f4f6; border: none; border-radius: 6px 6px 0 0; padding: 10px 20px; font-size: 15px; cursor: pointer; color: #666; }
+    .tab-btn.active { background: #fff; color: #a21caf; font-weight: bold; border-bottom: 2px solid #a21caf; }
+    .tab-content { background: #fff; border-radius: 0 0 12px 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); padding: 24px; }
+    .track-list { width: 100%; border-collapse: collapse; }
+    .track-list th, .track-list td { padding: 10px 8px; text-align: left; }
+    .track-list th { color: #a21caf; font-size: 13px; border-bottom: 1px solid #eee; }
+    .track-list tr:hover { background: #f3e8ff; }
+    .comment-section { margin-top: 16px; }
+    .comment-form textarea { width: 100%; border-radius: 6px; border: 1px solid #e5e7eb; padding: 10px; font-size: 14px; margin-bottom: 8px; }
+    .comment-list { margin-top: 16px; }
+    .comment { border-bottom: 1px solid #f3f4f6; padding: 12px 0; }
+    .related-list { display: flex; gap: 16px; flex-wrap: wrap; }
+    .related-card { background: linear-gradient(135deg, #818cf8 0%, #f472b6 100%); color: #fff; border-radius: 10px; padding: 20px; min-width: 180px; flex: 1; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .music-player { position: fixed; left: 0; right: 0; bottom: 0; background: #fff; border-top: 1px solid #e5e7eb; box-shadow: 0 -2px 8px rgba(0,0,0,0.04); padding: 16px 0; }
+    .music-player-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; gap: 24px; }
+    .player-cover { width: 48px; height: 48px; border-radius: 8px; background: #f3e8ff; display: flex; align-items: center; justify-content: center; }
+    .player-info { flex: 1; }
+    .player-title { font-weight: bold; }
+    .player-artist { font-size: 13px; color: #888; }
+    .player-controls { display: flex; gap: 8px; align-items: center; }
+    .footer-content { flex-direction: column; gap: 8px; }
+    .footer-links { display: flex; gap: 16px; }
+    .footer-link { color: #8b5cf6; text-decoration: none; font-size: 14px; }
+    .footer-link:hover { text-decoration: underline; }
+    @media (max-width: 700px) {
+      .playlist-header { flex-direction: column; align-items: flex-start; }
+      .music-player-inner { flex-direction: column; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-content">
+      <a href="index.html" class="logo">
+        <svg class="logo-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+        <span class="logo-text">playlistt</span>
+      </a>
+      <nav class="nav-links">
+        <a href="discover.html" class="nav-link">Discover</a>
+        <a href="playlist-create.html" class="nav-link">Create Playlist</a>
+        <a href="login.html" class="nav-link">Log in</a>
+        <a href="signup.html" class="nav-link">Sign up</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    <div class="playlist-header">
+      <img src="../public/placeholder.jpg" alt="Playlist Cover" class="playlist-cover">
+      <div class="playlist-info">
+        <div class="playlist-title">Summer Vibes 2024</div>
+        <div class="playlist-desc">The perfect playlist for sunny days and warm nights. Featuring the hottest tracks of the season.</div>
+        <div class="playlist-meta">By <b>alexjmusic</b> · 24 tracks · 1h 42m · 1287 followers · Created April 15, 2024</div>
+        <div class="playlist-actions">
+          <button class="btn btn-primary" id="playAllBtn">▶ Play All</button>
+          <button class="btn btn-outline" id="likeBtn">♡ Like</button>
+          <button class="btn btn-outline">⤴ Share</button>
+        </div>
+      </div>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" id="tabTracks">Tracks</button>
+      <button class="tab-btn" id="tabComments">Comments</button>
+      <button class="tab-btn" id="tabRelated">Related</button>
+    </div>
+    <div class="tab-content" id="tracksContent">
+      <table class="track-list">
+        <thead><tr><th>#</th><th>Title</th><th>Artist</th><th>Album</th><th>Duration</th></tr></thead>
+        <tbody id="trackListBody"></tbody>
+      </table>
+    </div>
+    <div class="tab-content" id="commentsContent" style="display:none;">
+      <div class="comment-section">
+        <form class="comment-form" id="commentForm">
+          <textarea id="commentInput" rows="2" placeholder="Add a comment..."></textarea>
+          <button type="submit" class="btn btn-primary">Comment</button>
+        </form>
+        <div class="comment-list" id="commentList"></div>
+      </div>
+    </div>
+    <div class="tab-content" id="relatedContent" style="display:none;">
+      <div class="related-list" id="relatedList"></div>
+    </div>
+  </main>
+  <div class="music-player" id="musicPlayer" style="display:none;">
+    <div class="music-player-inner">
+      <div class="player-cover"><span>🎵</span></div>
+      <div class="player-info">
+        <div class="player-title" id="playerTitle">-</div>
+        <div class="player-artist" id="playerArtist">-</div>
+      </div>
+      <div class="player-controls">
+        <button class="btn" id="prevBtn">⏮</button>
+        <button class="btn btn-primary" id="togglePlayBtn">▶</button>
+        <button class="btn" id="nextBtn">⏭</button>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <svg class="logo-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+        <span class="footer-text">© 2024 Playlistt. All rights reserved.</span>
+      </div>
+      <div class="footer-links">
+        <a href="#" class="footer-link">Terms</a>
+        <a href="#" class="footer-link">Privacy</a>
+        <a href="#" class="footer-link">Contact</a>
+      </div>
+    </div>
+  </footer>
+  <script>
+    // 목업 데이터
+    const tracks = [
+      { title: "Summer Breeze", artist: "Coastal Waves", album: "Beach Days", duration: "3:24" },
+      { title: "Sunset Drive", artist: "Night Cruisers", album: "Evening Rides", duration: "4:12" },
+      { title: "Ocean Waves", artist: "Sea Sounds", album: "Relaxation", duration: "3:56" },
+      { title: "Tropical Paradise", artist: "Island Vibes", album: "Vacation Mode", duration: "3:18" },
+      { title: "Beachside", artist: "Sandy Toes", album: "Coastal Living", duration: "4:05" },
+      { title: "Summer Nights", artist: "Moonlight Band", album: "After Dark", duration: "3:47" },
+      { title: "Poolside Chill", artist: "Aqua Lounge", album: "Dive In", duration: "3:32" },
+      { title: "Festival Season", artist: "Crowd Pleasers", album: "Live Events", duration: "4:23" },
+    ];
+    const comments = [
+      { user: "jamiemusic", text: "This playlist is perfect for my summer road trip! Thanks for curating such great tracks.", time: "2 days ago" },
+      { user: "musiclover", text: "I've been listening to this on repeat. 'Sunset Drive' is my favorite track!", time: "1 week ago" },
+      { user: "jlee", text: "Added this to my collection. Great vibes for summer parties!", time: "2 weeks ago" },
+    ];
+    const related = [
+      { title: "Beach Vibes", creator: "wavesurfer", tracks: 18 },
+      { title: "Pool Party Hits", creator: "partymaker", tracks: 22 },
+      { title: "Summer Nights", creator: "nightowl", tracks: 15 },
+    ];
+    // 트랙 렌더링
+    const trackListBody = document.getElementById('trackListBody');
+    tracks.forEach((t, i) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${i+1}</td><td>${t.title}</td><td>${t.artist}</td><td>${t.album}</td><td>${t.duration}</td>`;
+      tr.addEventListener('click', () => playTrack(i));
+      trackListBody.appendChild(tr);
+    });
+    // 탭 전환
+    document.getElementById('tabTracks').onclick = function() {
+      setTab('tracks');
+    };
+    document.getElementById('tabComments').onclick = function() {
+      setTab('comments');
+    };
+    document.getElementById('tabRelated').onclick = function() {
+      setTab('related');
+    };
+    function setTab(tab) {
+      document.getElementById('tracksContent').style.display = tab==='tracks'?'block':'none';
+      document.getElementById('commentsContent').style.display = tab==='comments'?'block':'none';
+      document.getElementById('relatedContent').style.display = tab==='related'?'block':'none';
+      document.getElementById('tabTracks').classList.toggle('active', tab==='tracks');
+      document.getElementById('tabComments').classList.toggle('active', tab==='comments');
+      document.getElementById('tabRelated').classList.toggle('active', tab==='related');
+    }
+    // 댓글 렌더링
+    const commentList = document.getElementById('commentList');
+    function renderComments() {
+      commentList.innerHTML = '';
+      comments.forEach(c => {
+        const div = document.createElement('div');
+        div.className = 'comment';
+        div.innerHTML = `<b>@${c.user}</b> <span style="color:#888;font-size:12px;">${c.time}</span><br>${c.text}`;
+        commentList.appendChild(div);
+      });
+    }
+    renderComments();
+    document.getElementById('commentForm').onsubmit = function(e) {
+      e.preventDefault();
+      const val = document.getElementById('commentInput').value.trim();
+      if(val) {
+        comments.unshift({ user: 'you', text: val, time: 'just now' });
+        renderComments();
+        document.getElementById('commentInput').value = '';
+      }
+    };
+    // 관련 플레이리스트 렌더링
+    const relatedList = document.getElementById('relatedList');
+    related.forEach(r => {
+      const div = document.createElement('div');
+      div.className = 'related-card';
+      div.innerHTML = `<b>${r.title}</b><br>by @${r.creator}<br>${r.tracks} tracks`;
+      relatedList.appendChild(div);
+    });
+    // 플레이어
+    let currentTrack = null;
+    function playTrack(idx) {
+      currentTrack = idx;
+      document.getElementById('musicPlayer').style.display = 'block';
+      document.getElementById('playerTitle').textContent = tracks[idx].title;
+      document.getElementById('playerArtist').textContent = tracks[idx].artist;
+    }
+    document.getElementById('playAllBtn').onclick = function() { playTrack(0); };
+    document.getElementById('togglePlayBtn').onclick = function() {
+      if(currentTrack===null) playTrack(0);
+      // 실제 오디오 재생은 구현하지 않음
+    };
+    document.getElementById('prevBtn').onclick = function() {
+      if(currentTrack>0) playTrack(currentTrack-1);
+    };
+    document.getElementById('nextBtn').onclick = function() {
+      if(currentTrack<tracks.length-1) playTrack(currentTrack+1);
+    };
+    // 좋아요 버튼
+    let liked = false;
+    document.getElementById('likeBtn').onclick = function() {
+      liked = !liked;
+      this.textContent = liked ? '♥ Liked' : '♡ Like';
+      this.style.color = liked ? '#a21caf' : '#fff';
+      this.style.background = liked ? '#f3e8ff' : 'transparent';
+    };
+  </script>
+</body>
+</html> 

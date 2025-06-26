@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사용자 프로필 - Playlistt</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8fafc;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            border-bottom: 1px solid #e5e7eb;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+            padding: 16px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .logo-icon {
+            width: 24px;
+            height: 24px;
+            color: #8b5cf6;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .nav-link {
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            color: #666;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: #333;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+
+        .search-container {
+            position: relative;
+            width: 256px;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            color: #9ca3af;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 8px 8px 8px 32px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background-color: #8b5cf6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #7c3aed;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid #d1d5db;
+            color: #666;
+        }
+
+        .btn-outline:hover {
+            background-color: #f9fafb;
+            border-color: #9ca3af;
+        }
+
+        /* User Profile */
+        .user-profile-header {
+            background: linear-gradient(135deg, #f3e8ff 0%, #ffffff 100%);
+            padding: 48px 0;
+            margin-bottom: 32px;
+        }
+
+        .profile-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 24px;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 48px;
+            font-weight: bold;
+            border: 4px solid white;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+        }
+
+        .profile-info h1 {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #1f2937;
+        }
+
+        .profile-username {
+            font-size: 18px;
+            color: #6b7280;
+            margin-bottom: 16px;
+        }
+
+        .profile-bio {
+            max-width: 600px;
+            color: #4b5563;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 32px;
+            margin-bottom: 24px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .profile-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            justify-content: center;
+        }
+
+        .tab-btn {
+            background: #f3f4f6;
+            border: none;
+            border-radius: 6px 6px 0 0;
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            color: #666;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background: #fff;
+            color: #8b5cf6;
+            font-weight: bold;
+            border-bottom: 2px solid #8b5cf6;
+        }
+
+        .tab-content {
+            background: #fff;
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            padding: 32px;
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 24px;
+            color: #1f2937;
+        }
+
+        /* Playlist Cards */
+        .playlists-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 32px;
+        }
+
+        .playlist-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .playlist-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .playlist-gradient {
+            position: absolute;
+            inset: 0;
+            opacity: 0.9;
+        }
+
+        .playlist-overlay {
+            position: absolute;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .playlist-content {
+            position: relative;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            justify-content: space-between;
+        }
+
+        .playlist-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 4px;
+        }
+
+        .playlist-creator {
+            font-size: 14px;
+            color: #e5e7eb;
+        }
+
+        .playlist-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 16px;
+        }
+
+        .playlist-tracks {
+            font-size: 14px;
+            color: white;
+        }
+
+        .playlist-likes {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 14px;
+            color: white;
+        }
+
+        .heart-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        .playlist-btn {
+            margin-top: 16px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            backdrop-filter: blur(4px);
+        }
+
+        .playlist-btn:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: #fff;
+            border-top: 1px solid #e5e7eb;
+            padding: 24px 0;
+            margin-top: 64px;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer-link {
+            color: #6b7280;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .footer-link:hover {
+            color: #8b5cf6;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .profile-content {
+                padding: 0 20px;
+            }
+
+            .profile-stats {
+                gap: 16px;
+            }
+
+            .profile-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .playlists-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .modal-close:hover {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <a href="index.html" class="logo">
+                <svg class="logo-icon" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                </svg>
+                <span class="logo-text">playlistt</span>
+            </a>
+            <nav class="nav-links">
+                <a href="discover.html" class="nav-link">Discover</a>
+                <a href="playlist-create.html" class="nav-link">Create Playlist</a>
+                <a href="login.html" class="nav-link">Log in</a>
+                <a href="signup.html" class="nav-link">Sign up</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- User Profile Header -->
+    <section class="user-profile-header">
+        <div class="container">
+            <div class="profile-content">
+                <div class="profile-avatar" id="userAvatar">A</div>
+                <div class="profile-info">
+                    <h1 id="userName">Alex Johnson</h1>
+                    <p class="profile-username" id="userUsername">@musiclover</p>
+                    <p class="profile-bio" id="userBio">Music enthusiast | Playlist curator | Always looking for new sounds</p>
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <div class="stat-number" id="followersCount">245</div>
+                            <div class="stat-label">followers</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="followingCount">132</div>
+                            <div class="stat-label">following</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">3</div>
+                            <div class="stat-label">playlists</div>
+                        </div>
+                    </div>
+                    <div class="profile-actions">
+                        <button class="btn btn-primary" id="followBtn">Follow</button>
+                        <button class="btn btn-outline">Share Profile</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" id="tabPlaylists">Playlists</button>
+            <button class="tab-btn" id="tabLiked">Liked Playlists</button>
+        </div>
+
+        <!-- Playlists Tab -->
+        <div class="tab-content active" id="playlistsContent">
+            <h2 class="section-title" id="playlistsTitle">Alex Johnson's Playlists</h2>
+            <div class="playlists-grid" id="userPlaylistsGrid">
+                <!-- Playlists will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Liked Playlists Tab -->
+        <div class="tab-content" id="likedContent">
+            <h2 class="section-title">Playlists Alex Johnson Likes</h2>
+            <div class="playlists-grid" id="likedPlaylistsGrid">
+                <!-- Liked playlists will be populated by JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <svg class="logo-icon" fill="currentColor" viewBox="0 0 24 24" style="width: 20px; height: 20px;">
+                    <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                </svg>
+                <span style="font-size: 14px; color: #6b7280;">© 2024 Playlistt. All rights reserved.</span>
+            </div>
+            <div class="footer-links">
+                <a href="#" class="footer-link">Terms</a>
+                <a href="#" class="footer-link">Privacy</a>
+                <a href="#" class="footer-link">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div class="modal" id="playlistModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">플레이리스트 제목</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div id="modalContent">
+                <!-- Modal content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mock user data
+        const userData = {
+            username: 'musiclover',
+            name: 'Alex Johnson',
+            bio: 'Music enthusiast | Playlist curator | Always looking for new sounds',
+            avatar: 'A',
+            followers: 245,
+            following: 132,
+            isFollowing: false
+        };
+
+        // Mock playlists data
+        const userPlaylists = [
+            {
+                id: 'summer-hits',
+                title: 'Summer Hits',
+                tracks: 24,
+                likes: 1.2,
+                color: 'from-orange-400 to-pink-500',
+                lastUpdated: '2 days ago'
+            },
+            {
+                id: 'chill-vibes',
+                title: 'Chill Vibes',
+                tracks: 18,
+                likes: 0.9,
+                color: 'from-blue-400 to-purple-500',
+                lastUpdated: '1 week ago'
+            },
+            {
+                id: 'workout-mix',
+                title: 'Workout Mix',
+                tracks: 32,
+                likes: 2.4,
+                color: 'from-green-400 to-cyan-500',
+                lastUpdated: '3 days ago'
+            }
+        ];
+
+        // Mock liked playlists data
+        const likedPlaylists = [
+            {
+                id: 'road-trip',
+                title: 'Road Trip',
+                creator: 'traveler',
+                tracks: 28,
+                likes: 1.7,
+                color: 'from-yellow-400 to-orange-500'
+            },
+            {
+                id: 'study-focus',
+                title: 'Study Focus',
+                creator: 'brainpower',
+                tracks: 15,
+                likes: 0.8,
+                color: 'from-indigo-400 to-blue-500'
+            },
+            {
+                id: 'party-anthems',
+                title: 'Party Anthems',
+                creator: 'partypeople',
+                tracks: 22,
+                likes: 3.1,
+                color: 'from-pink-400 to-red-500'
+            }
+        ];
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            populateUserInfo();
+            populateUserPlaylists();
+            populateLikedPlaylists();
+            setupTabNavigation();
+            setupFollowButton();
+        });
+
+        function populateUserInfo() {
+            document.getElementById('userName').textContent = userData.name;
+            document.getElementById('userUsername').textContent = '@' + userData.username;
+            document.getElementById('userBio').textContent = userData.bio;
+            document.getElementById('userAvatar').textContent = userData.avatar;
+            document.getElementById('followersCount').textContent = userData.followers;
+            document.getElementById('followingCount').textContent = userData.following;
+            document.getElementById('playlistsTitle').textContent = userData.name + "'s Playlists";
+        }
+
+        function populateUserPlaylists() {
+            const grid = document.getElementById('userPlaylistsGrid');
+            grid.innerHTML = '';
+
+            userPlaylists.forEach(playlist => {
+                const card = createPlaylistCard(playlist, true);
+                grid.appendChild(card);
+            });
+        }
+
+        function populateLikedPlaylists() {
+            const grid = document.getElementById('likedPlaylistsGrid');
+            grid.innerHTML = '';
+
+            likedPlaylists.forEach(playlist => {
+                const card = createPlaylistCard(playlist, false);
+                grid.appendChild(card);
+            });
+        }
+
+        function createPlaylistCard(playlist, isUserPlaylist) {
+            const card = document.createElement('div');
+            card.className = 'playlist-card';
+            card.onclick = () => openModal(playlist);
+
+            const gradientColors = getGradientColors(playlist.color);
+            
+            card.innerHTML = `
+                <div class="playlist-gradient" style="background: ${gradientColors}"></div>
+                <div class="playlist-overlay"></div>
+                <div class="playlist-content">
+                    <div>
+                        <h3 class="playlist-title">${playlist.title}</h3>
+                        <p class="playlist-creator">${isUserPlaylist ? 'Last updated: ' + playlist.lastUpdated : 'by @' + playlist.creator}</p>
+                    </div>
+                    <div class="playlist-stats">
+                        <div class="playlist-tracks">${playlist.tracks} tracks</div>
+                        <div class="playlist-likes">
+                            <svg class="heart-icon" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                            </svg>
+                            ${isUserPlaylist ? playlist.likes : playlist.likes + 'k'}
+                        </div>
+                    </div>
+                    <button class="btn playlist-btn">
+                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                        Play
+                    </button>
+                </div>
+            `;
+
+            return card;
+        }
+
+        function getGradientColors(colorClass) {
+            const gradients = {
+                'from-orange-400 to-pink-500': 'linear-gradient(135deg, #fb923c, #ec4899)',
+                'from-blue-400 to-purple-500': 'linear-gradient(135deg, #60a5fa, #8b5cf6)',
+                'from-green-400 to-cyan-500': 'linear-gradient(135deg, #4ade80, #06b6d4)',
+                'from-yellow-400 to-orange-500': 'linear-gradient(135deg, #fbbf24, #f97316)',
+                'from-indigo-400 to-blue-500': 'linear-gradient(135deg, #818cf8, #3b82f6)',
+                'from-pink-400 to-red-500': 'linear-gradient(135deg, #f472b6, #ef4444)'
+            };
+            return gradients[colorClass] || 'linear-gradient(135deg, #8b5cf6, #a855f7)';
+        }
+
+        function setupTabNavigation() {
+            const tabPlaylists = document.getElementById('tabPlaylists');
+            const tabLiked = document.getElementById('tabLiked');
+            const contentPlaylists = document.getElementById('playlistsContent');
+            const contentLiked = document.getElementById('likedContent');
+
+            tabPlaylists.onclick = function() {
+                tabPlaylists.classList.add('active');
+                tabLiked.classList.remove('active');
+                contentPlaylists.classList.add('active');
+                contentLiked.classList.remove('active');
+            };
+
+            tabLiked.onclick = function() {
+                tabLiked.classList.add('active');
+                tabPlaylists.classList.remove('active');
+                contentLiked.classList.add('active');
+                contentPlaylists.classList.remove('active');
+            };
+        }
+
+        function setupFollowButton() {
+            const followBtn = document.getElementById('followBtn');
+            
+            followBtn.onclick = function() {
+                userData.isFollowing = !userData.isFollowing;
+                
+                if (userData.isFollowing) {
+                    followBtn.textContent = 'Following';
+                    followBtn.className = 'btn btn-outline';
+                    userData.followers++;
+                } else {
+                    followBtn.textContent = 'Follow';
+                    followBtn.className = 'btn btn-primary';
+                    userData.followers--;
+                }
+                
+                document.getElementById('followersCount').textContent = userData.followers;
+            };
+        }
+
+        // Modal functions
+        function openModal(playlist) {
+            const modal = document.getElementById('playlistModal');
+            const title = document.getElementById('modalTitle');
+            const content = document.getElementById('modalContent');
+
+            title.textContent = playlist.title;
+            content.innerHTML = `
+                <p><strong>Creator:</strong> @${playlist.creator || userData.username}</p>
+                <p><strong>Tracks:</strong> ${playlist.tracks}</p>
+                <p><strong>Likes:</strong> ${playlist.likes}${playlist.likes < 10 ? '' : 'k'}</p>
+                <p>이 플레이리스트를 재생하려면 로그인이 필요합니다.</p>
+                <div style="margin-top: 20px;">
+                    <a href="login.html" class="btn btn-primary">로그인</a>
+                    <a href="signup.html" class="btn btn-outline">회원가입</a>
+                </div>
+            `;
+
+            modal.classList.add('show');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('playlistModal');
+            modal.classList.remove('show');
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('playlistModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html> 
