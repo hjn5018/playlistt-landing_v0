@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프로필 - Playlistt</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8fafc;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            border-bottom: 1px solid #e5e7eb;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+            padding: 16px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .logo-icon {
+            width: 24px;
+            height: 24px;
+            color: #8b5cf6;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .nav-link {
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            color: #666;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: #333;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+
+        .search-container {
+            position: relative;
+            width: 256px;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            color: #9ca3af;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 8px 8px 8px 32px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .btn-primary {
+            background-color: #8b5cf6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #7c3aed;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid #d1d5db;
+            color: #666;
+        }
+
+        .btn-outline:hover {
+            background-color: #f9fafb;
+            border-color: #9ca3af;
+        }
+
+        .btn-ghost {
+            background-color: transparent;
+            color: #666;
+        }
+
+        .btn-ghost:hover {
+            background-color: #f9fafb;
+        }
+
+        .user-menu {
+            position: relative;
+            display: inline-block;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #8b5cf6;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .user-avatar:hover {
+            background-color: #7c3aed;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            min-width: 160px;
+            z-index: 1000;
+            display: none;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 8px 16px;
+            color: #374151;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f9fafb;
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background-color: #e5e7eb;
+            margin: 4px 0;
+        }
+
+        /* Main Content */
+        main {
+            padding: 32px 0;
+        }
+
+        .page-header {
+            margin-bottom: 32px;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            color: #666;
+            font-size: 16px;
+        }
+
+        /* Profile Section */
+        .profile-section {
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 32px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #8b5cf6;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            font-weight: bold;
+        }
+
+        .profile-info h2 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .profile-username {
+            color: #666;
+            font-size: 18px;
+            margin-bottom: 16px;
+        }
+
+        .profile-bio {
+            color: #374151;
+            font-size: 16px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 32px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: bold;
+            color: #8b5cf6;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .profile-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        /* Settings Section */
+        .settings-section {
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #374151;
+        }
+
+        .settings-group {
+            margin-bottom: 32px;
+        }
+
+        .settings-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .settings-item:last-child {
+            border-bottom: none;
+        }
+
+        .settings-label {
+            font-size: 16px;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .settings-description {
+            font-size: 14px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .settings-control {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #8b5cf6;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid #e5e7eb;
+            padding: 24px 0;
+            margin-top: 64px;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-icon {
+            width: 20px;
+            height: 20px;
+            color: #8b5cf6;
+        }
+
+        .footer-text {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .footer-links {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .footer-link {
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            color: #666;
+        }
+
+        .footer-link:hover {
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 12px;
+            }
+
+            .search-container {
+                width: 200px;
+            }
+
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .profile-stats {
+                justify-content: center;
+            }
+
+            .profile-actions {
+                justify-content: center;
+            }
+
+            .settings-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .search-container {
+                display: none;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+
+            .profile-section,
+            .settings-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <svg class="logo-icon" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                    </svg>
+                    <span class="logo-text">playlistt</span>
+                </a>
+                <nav class="nav-links">
+                    <a href="discover.html" class="nav-link">Discover</a>
+                    <div class="search-container">
+                        <svg class="search-icon" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                        </svg>
+                        <input type="search" class="search-input" placeholder="Search playlists...">
+                    </div>
+                    <a href="playlist-create.html" class="btn btn-primary btn-sm">
+                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                        </svg>
+                        Create Playlist
+                    </a>
+                    <div class="user-menu">
+                        <div class="user-avatar" onclick="toggleDropdown()">U</div>
+                        <div class="dropdown-menu" id="userDropdown">
+                            <a href="profile.html" class="dropdown-item">프로필</a>
+                            <a href="mypage.html" class="dropdown-item">마이페이지</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="index.html" class="dropdown-item" onclick="logout()">로그아웃</a>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1 class="page-title">프로필</h1>
+                <p class="page-subtitle">계정 정보와 설정을 관리하세요</p>
+            </div>
+
+            <!-- Profile Section -->
+            <div class="profile-section">
+                <div class="profile-header">
+                    <div class="profile-avatar">U</div>
+                    <div class="profile-info">
+                        <h2>사용자님</h2>
+                        <p class="profile-username">@username</p>
+                        <p class="profile-bio">음악을 사랑하는 플레이리스트 크리에이터입니다. 다양한 장르의 음악을 수집하고 공유하는 것을 좋아합니다.</p>
+                        <div class="profile-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">12</div>
+                                <div class="stat-label">플레이리스트</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">156</div>
+                                <div class="stat-label">좋아요</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">89</div>
+                                <div class="stat-label">팔로워</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">45</div>
+                                <div class="stat-label">팔로잉</div>
+                            </div>
+                        </div>
+                        <div class="profile-actions">
+                            <button class="btn btn-primary" onclick="editProfile()">프로필 편집</button>
+                            <button class="btn btn-outline" onclick="shareProfile()">프로필 공유</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Section -->
+            <div class="settings-section">
+                <h2 class="section-title">설정</h2>
+                
+                <div class="settings-group">
+                    <h3 style="margin-bottom: 16px; color: #374151;">알림 설정</h3>
+                    
+                    <div class="settings-item">
+                        <div>
+                            <div class="settings-label">이메일 알림</div>
+                            <div class="settings-description">새로운 팔로워나 좋아요에 대한 이메일 알림을 받습니다</div>
+                        </div>
+                        <div class="settings-control">
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="settings-item">
+                        <div>
+                            <div class="settings-label">푸시 알림</div>
+                            <div class="settings-description">브라우저 푸시 알림을 받습니다</div>
+                        </div>
+                        <div class="settings-control">
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <h3 style="margin-bottom: 16px; color: #374151;">개인정보</h3>
+                    
+                    <div class="settings-item">
+                        <div>
+                            <div class="settings-label">프로필 공개</div>
+                            <div class="settings-description">다른 사용자가 내 프로필을 볼 수 있습니다</div>
+                        </div>
+                        <div class="settings-control">
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="settings-item">
+                        <div>
+                            <div class="settings-label">플레이리스트 공개</div>
+                            <div class="settings-description">기본적으로 새 플레이리스트를 공개로 만듭니다</div>
+                        </div>
+                        <div class="settings-control">
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <h3 style="margin-bottom: 16px; color: #374151;">계정</h3>
+                    
+                    <div class="settings-item">
+                        <div>
+                            <div class="settings-label">비밀번호 변경</div>
+                            <div class="settings-description">계정 비밀번호를 변경합니다</div>
+                        </div>
+                        <div class="settings-control">
+                            <button class="btn btn-outline btn-sm" onclick="changePassword()">변경</button>
+                        </div>
+                    </div>
+
+                    <div class="settings-item">
+                        <div>
+                            <div class="settings-label">계정 삭제</div>
+                            <div class="settings-description">계정과 모든 데이터를 영구적으로 삭제합니다</div>
+                        </div>
+                        <div class="settings-control">
+                            <button class="btn btn-outline btn-sm" onclick="deleteAccount()" style="color: #dc2626; border-color: #dc2626;">삭제</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <svg class="footer-icon" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                    </svg>
+                    <p class="footer-text">© 2024 Playlistt. All rights reserved.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#" class="footer-link">Terms</a>
+                    <a href="#" class="footer-link">Privacy</a>
+                    <a href="#" class="footer-link">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // User dropdown functionality
+        function toggleDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const userMenu = document.querySelector('.user-menu');
+            const dropdown = document.getElementById('userDropdown');
+            
+            if (!userMenu.contains(event.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+
+        // Logout function
+        function logout() {
+            if (confirm('로그아웃하시겠습니까?')) {
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Profile actions
+        function editProfile() {
+            alert('프로필 편집 기능은 현재 개발 중입니다.');
+        }
+
+        function shareProfile() {
+            alert('프로필 공유 기능은 현재 개발 중입니다.');
+        }
+
+        function changePassword() {
+            alert('비밀번호 변경 기능은 현재 개발 중입니다.');
+        }
+
+        function deleteAccount() {
+            if (confirm('정말로 계정을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.')) {
+                alert('계정 삭제 기능은 현재 개발 중입니다.');
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add event listeners for switches
+            document.querySelectorAll('.switch input').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const settingName = this.closest('.settings-item').querySelector('.settings-label').textContent;
+                    console.log(`${settingName} 설정이 ${this.checked ? '활성화' : '비활성화'}되었습니다.`);
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

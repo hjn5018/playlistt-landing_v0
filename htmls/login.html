@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인 - Playlistt</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(to bottom, #f8fafc, #fff);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            border-bottom: 1px solid #e5e7eb;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+            padding: 16px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .logo-icon {
+            width: 24px;
+            height: 24px;
+            color: #8b5cf6;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .nav-link {
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            color: #666;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: #333;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+
+        .search-container {
+            position: relative;
+            width: 256px;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            color: #9ca3af;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 8px 8px 8px 32px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .btn-primary {
+            background-color: #8b5cf6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #7c3aed;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid #d1d5db;
+            color: #666;
+        }
+
+        .btn-outline:hover {
+            background-color: #f9fafb;
+            border-color: #9ca3af;
+        }
+
+        .btn-ghost {
+            background-color: transparent;
+            color: #666;
+        }
+
+        .btn-ghost:hover {
+            background-color: #f9fafb;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Main Content */
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 32px 20px;
+        }
+
+        /* Login Card */
+        .login-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 32px;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .login-icon {
+            width: 48px;
+            height: 48px;
+            background-color: #f3e8ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+
+        .login-icon svg {
+            width: 24px;
+            height: 24px;
+            color: #8b5cf6;
+        }
+
+        .login-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .login-subtitle {
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: #374151;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .forgot-link {
+            font-size: 12px;
+            color: #8b5cf6;
+            text-decoration: none;
+        }
+
+        .forgot-link:hover {
+            text-decoration: underline;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .checkbox {
+            width: 16px;
+            height: 16px;
+            accent-color: #8b5cf6;
+        }
+
+        .checkbox-label {
+            font-size: 14px;
+            color: #374151;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            margin-bottom: 16px;
+        }
+
+        /* Divider */
+        .divider {
+            position: relative;
+            text-align: center;
+            margin: 24px 0;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: #e5e7eb;
+        }
+
+        .divider-text {
+            background-color: white;
+            padding: 0 16px;
+            color: #666;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        /* Social Buttons */
+        .social-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            background-color: white;
+            color: #374151;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .social-btn:hover {
+            background-color: #f9fafb;
+            border-color: #9ca3af;
+        }
+
+        .social-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Alert */
+        .alert {
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            display: none;
+        }
+
+        .alert-error {
+            background-color: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+        }
+
+        .alert-success {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #16a34a;
+        }
+
+        .alert-icon {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+        }
+
+        /* Footer */
+        .login-footer {
+            text-align: center;
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .footer-text {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .footer-link {
+            color: #8b5cf6;
+            text-decoration: none;
+        }
+
+        .footer-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid #e5e7eb;
+            padding: 24px 0;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-icon {
+            width: 20px;
+            height: 20px;
+            color: #8b5cf6;
+        }
+
+        .footer-text {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .footer-links {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .footer-link {
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            color: #666;
+        }
+
+        .footer-link:hover {
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 12px;
+            }
+
+            .search-container {
+                width: 200px;
+            }
+
+            .social-buttons {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .search-container {
+                display: none;
+            }
+
+            .login-card {
+                padding: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <svg class="logo-icon" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                    </svg>
+                    <span class="logo-text">playlistt</span>
+                </a>
+                <nav class="nav-links">
+                    <a href="discover.html" class="nav-link">Discover</a>
+                    <div class="search-container">
+                        <svg class="search-icon" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                        </svg>
+                        <input type="search" class="search-input" placeholder="Search playlists...">
+                    </div>
+                    <a href="playlist-create.html" class="btn btn-primary btn-sm">
+                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                        </svg>
+                        Create Playlist
+                    </a>
+                    <a href="login.html" class="btn btn-ghost btn-sm">Log in</a>
+                    <a href="signup.html" class="btn btn-primary btn-sm">Sign up</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="login-card">
+            <!-- Login Header -->
+            <div class="login-header">
+                <div class="login-icon">
+                    <svg fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                    </svg>
+                </div>
+                <h1 class="login-title">다시 오신 것을 환영합니다</h1>
+                <p class="login-subtitle">Playlistt 계정에 로그인하세요</p>
+            </div>
+
+            <!-- Alert Messages -->
+            <div class="alert alert-error" id="errorAlert">
+                <svg class="alert-icon" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+                <span id="errorMessage">로그인에 실패했습니다. 이메일/사용자명 또는 비밀번호가 올바르지 않습니다.</span>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label" for="identifier">이메일 또는 사용자명</label>
+                    <input type="text" class="form-input" id="identifier" placeholder="이메일 또는 사용자명을 입력하세요" required>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-row">
+                        <label class="form-label" for="password">비밀번호</label>
+                        <a href="finding-pwd.html" class="forgot-link">비밀번호를 잊으셨나요?</a>
+                    </div>
+                    <input type="password" class="form-input" id="password" placeholder="비밀번호를 입력하세요" required>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" class="checkbox" id="remember">
+                    <label class="checkbox-label" for="remember">로그인 상태 유지</label>
+                </div>
+
+                <button type="submit" class="btn btn-primary login-btn" id="loginBtn">
+                    로그인
+                </button>
+            </form>
+
+            <!-- Divider -->
+            <div class="divider">
+                <span class="divider-text">또는 다음으로 계속</span>
+            </div>
+
+            <!-- Social Login Buttons -->
+            <div class="social-buttons">
+                <a href="#" class="social-btn">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09z"/>
+                    </svg>
+                    Apple
+                </a>
+                <a href="#" class="social-btn">
+                    <svg viewBox="0 0 24 24" fill="#1DB954">
+                        <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.24 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+                    </svg>
+                    Spotify
+                </a>
+                <a href="#" class="social-btn">
+                    <svg viewBox="0 0 24 24" fill="#FF0000">
+                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                    </svg>
+                    YouTube
+                </a>
+                <a href="#" class="social-btn">
+                    <svg viewBox="0 0 24 24" fill="#f50">
+                        <path d="M19.98 8.02a40.15 40.15 0 0 0-.65-.89c-.1-.12-.21-.23-.33-.34a4.65 4.65 0 0 0-3.13-1.23c-1.32-.08-2.59.15-3.79.72-.29.14-.57.29-.85.44-.37-.21-.73-.45-1.1-.67-.95-.56-1.92-1.04-2.96-1.29a5.18 5.18 0 0 0-2.93.05c-.78.23-1.4.7-1.91 1.31-.41.48-.72 1.03-.91 1.64-.2.62-.25 1.25-.23 1.9.02.56.11 1.11.28 1.64.24.73.59 1.42.95 2.1.13.24.26.48.39.72l.03.06c.12.22-.16.27-.25.37-.08.09-.17.17-.24.26-.35.43-.67.89-.9 1.4-.28.62-.41 1.28-.34 1.95.07.54.26 1.04.61 1.46.35.41.8.72 1.31.92.44.17.9.27 1.37.32.64.07 1.28.03 1.92-.03.36-.03.72-.1 1.08-.16.2-.03.4-.07.6-.11.82-.16 1.65-.32 2.48-.46.14-.02.29-.05.43-.07.31-.04.61-.05.92-.05.7 0 1.38.13 2.03.35.87.3 1.59.81 2.22 1.47.28.29.53.61.75.95.1.15.19.31.28.47.04.07.11.13.13.21.07.14.07.21-.09.27-.32.12-.64.24-.98.29-.49.07-.98.09-1.48.08-.75-.01-1.5-.09-2.23-.29-.61-.16-1.2-.38-1.76-.67-.1-.05-.21-.09-.32-.11-.12-.02-.25.02-.34.1-.1.09-.17.21-.2.34-.04.14-.02.29.04.42.07.15.19.27.33.35.15.09.3.16.45.24.54.27 1.1.49 1.68.67.67.21 1.35.36 2.05.45.87.12 1.75.15 2.63.1.51-.03 1.01-.11 1.5-.24.43-.11.85-.27 1.25-.48.76-.4 1.3-.99 1.61-1.77.16-.39.24-.8.27-1.22.04-.66-.05-1.29-.26-1.9-.31-.88-.8-1.66-1.31-2.42-.53-.79-1.11-1.53-1.69-2.28-.5-.65-.96-1.32-1.34-2.04-.17-.32-.31-.65-.41-.99-.13-.45-.16-.92-.08-1.38.09-.53.33-.97.71-1.34.4-.39.9-.63 1.46-.73.5-.09 1-.05 1.49.08.51.14.96.39 1.34.75.36.34.62.75.79 1.21.16.42.23.86.24 1.3.01.53-.08 1.05-.19 1.57-.04.19-.09.37-.14.56 0 .02-.01.04-.01.06-.09.37.23.35.46.35.56.01 1.12-.01 1.68-.02.11 0 .22-.01.33-.02.3-.02.6-.05.9-.09.26-.03.38-.17.43-.42.03-.17.05-.35.08-.52.05-.32.09-.64.12-.96.09-.86.11-1.72.05-2.58-.07-.86-.26-1.68-.63-2.44z"/>
+                    </svg>
+                    SoundCloud
+                </a>
+            </div>
+
+            <!-- Footer -->
+            <div class="login-footer">
+                <p class="footer-text">
+                    계정이 없으신가요? <a href="signup.html" class="footer-link">회원가입</a>
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <svg class="footer-icon" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                    </svg>
+                    <p class="footer-text">© 2024 Playlistt. All rights reserved.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#" class="footer-link">Terms</a>
+                    <a href="#" class="footer-link">Privacy</a>
+                    <a href="#" class="footer-link">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginForm = document.getElementById('loginForm');
+            const loginBtn = document.getElementById('loginBtn');
+            const errorAlert = document.getElementById('errorAlert');
+            const identifierInput = document.getElementById('identifier');
+            const passwordInput = document.getElementById('password');
+
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const identifier = identifierInput.value.trim();
+                const password = passwordInput.value.trim();
+
+                // Hide previous error
+                errorAlert.style.display = 'none';
+
+                // Basic validation
+                if (!identifier || !password) {
+                    showError('모든 필드를 입력해주세요.');
+                    return;
+                }
+
+                if (password.length < 6) {
+                    showError('비밀번호는 최소 6자 이상이어야 합니다.');
+                    return;
+                }
+
+                // Simulate login process
+                loginBtn.disabled = true;
+                loginBtn.textContent = '로그인 중...';
+
+                // Simulate API call
+                setTimeout(() => {
+                    // For demo purposes, accept any valid input
+                    if (identifier && password && password.length >= 6) {
+                        // Success - redirect to mypage
+                        window.location.href = 'mypage.html';
+                    } else {
+                        showError('이메일/사용자명 또는 비밀번호가 올바르지 않습니다.');
+                        loginBtn.disabled = false;
+                        loginBtn.textContent = '로그인';
+                    }
+                }, 1000);
+            });
+
+            function showError(message) {
+                document.getElementById('errorMessage').textContent = message;
+                errorAlert.style.display = 'flex';
+                loginBtn.disabled = false;
+                loginBtn.textContent = '로그인';
+            }
+
+            // Social login handlers
+            document.querySelectorAll('.social-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    alert('소셜 로그인 기능은 현재 개발 중입니다.');
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

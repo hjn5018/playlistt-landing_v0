@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>플레이리스트 탐색 - Playlistt</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            border-bottom: 1px solid #e5e7eb;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+            padding: 16px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .logo-icon {
+            width: 24px;
+            height: 24px;
+            color: #8b5cf6;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .nav-link {
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            color: #666;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: #333;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+
+        .search-container {
+            position: relative;
+            width: 256px;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            color: #9ca3af;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 8px 8px 8px 32px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .btn-primary {
+            background-color: #8b5cf6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #7c3aed;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid #d1d5db;
+            color: #666;
+        }
+
+        .btn-outline:hover {
+            background-color: #f9fafb;
+            border-color: #9ca3af;
+        }
+
+        .btn-ghost {
+            background-color: transparent;
+            color: #666;
+        }
+
+        .btn-ghost:hover {
+            background-color: #f9fafb;
+        }
+
+        /* Main Content */
+        main {
+            flex: 1;
+            padding: 32px 0;
+        }
+
+        .page-header {
+            margin-bottom: 32px;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            font-size: 16px;
+            color: #666;
+        }
+
+        /* Filters */
+        .filters {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+        }
+
+        .filter-select {
+            padding: 6px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            background-color: white;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: #8b5cf6;
+        }
+
+        /* Playlists Grid */
+        .playlists-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .playlist-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .playlist-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .playlist-gradient {
+            position: absolute;
+            inset: 0;
+            opacity: 0.9;
+        }
+
+        .playlist-overlay {
+            position: absolute;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .playlist-content {
+            position: relative;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            justify-content: space-between;
+        }
+
+        .playlist-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .playlist-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 4px;
+        }
+
+        .playlist-creator {
+            font-size: 14px;
+            color: #e5e7eb;
+        }
+
+        .platform-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .platform-spotify {
+            background-color: #1DB954;
+        }
+
+        .platform-apple {
+            background: linear-gradient(135deg, #ff6b6b, #8b5cf6);
+        }
+
+        .platform-melon {
+            background-color: #00CD3C;
+        }
+
+        .playlist-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 16px;
+        }
+
+        .playlist-tracks {
+            font-size: 14px;
+            color: white;
+        }
+
+        .playlist-likes {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 14px;
+            color: white;
+        }
+
+        .heart-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        .playlist-btn {
+            margin-top: 16px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            backdrop-filter: blur(4px);
+        }
+
+        .playlist-btn:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* No results */
+        .no-results {
+            text-align: center;
+            padding: 64px 0;
+            color: #666;
+        }
+
+        .no-results h3 {
+            font-size: 24px;
+            margin-bottom: 16px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 12px;
+            }
+
+            .search-container {
+                width: 200px;
+            }
+
+            .filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-group {
+                justify-content: space-between;
+            }
+
+            .playlists-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .search-container {
+                display: none;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <svg class="logo-icon" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                    </svg>
+                    <span class="logo-text">playlistt</span>
+                </a>
+                <nav class="nav-links">
+                    <a href="discover.html" class="nav-link">Discover</a>
+                    <div class="search-container">
+                        <svg class="search-icon" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                        </svg>
+                        <input type="search" class="search-input" id="searchInput" placeholder="Search playlists...">
+                    </div>
+                    <a href="playlist-create.html" class="btn btn-primary btn-sm">
+                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                        </svg>
+                        Create Playlist
+                    </a>
+                    <a href="login.html" class="btn btn-ghost btn-sm">Log in</a>
+                    <a href="signup.html" class="btn btn-primary btn-sm">Sign up</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1 class="page-title">플레이리스트 탐색</h1>
+                <p class="page-subtitle">다양한 장르와 플랫폼의 플레이리스트를 발견해보세요</p>
+            </div>
+
+            <!-- Filters -->
+            <div class="filters">
+                <div class="filter-group">
+                    <label class="filter-label">카테고리:</label>
+                    <select class="filter-select" id="categoryFilter">
+                        <option value="all">모든 카테고리</option>
+                        <option value="pop">팝</option>
+                        <option value="rock">락</option>
+                        <option value="electronic">일렉트로닉</option>
+                        <option value="jazz">재즈</option>
+                        <option value="classical">클래식</option>
+                        <option value="hiphop">힙합</option>
+                        <option value="lofi">Lo-Fi</option>
+                        <option value="acoustic">어쿠스틱</option>
+                        <option value="dance">댄스</option>
+                        <option value="indie">인디</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">플랫폼:</label>
+                    <select class="filter-select" id="platformFilter">
+                        <option value="all">모든 플랫폼</option>
+                        <option value="spotify">Spotify</option>
+                        <option value="apple">Apple Music</option>
+                        <option value="melon">Melon</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Playlists Grid -->
+            <div class="playlists-grid" id="playlistsGrid">
+                <!-- Playlists will be populated by JavaScript -->
+            </div>
+
+            <!-- No Results -->
+            <div class="no-results" id="noResults" style="display: none;">
+                <h3>검색 결과가 없습니다</h3>
+                <p>다른 검색어나 필터를 시도해보세요.</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Extended playlists data
+        const allPlaylists = [
+            {
+                id: "summer-hits",
+                title: "Summer Hits",
+                creator: "musiclover",
+                tracks: 24,
+                likes: 1.2,
+                color: "linear-gradient(135deg, #fb923c, #ec4899)",
+                category: "pop",
+                platform: "spotify"
+            },
+            {
+                id: "chill-vibes",
+                title: "Chill Vibes",
+                creator: "chillzone",
+                tracks: 18,
+                likes: 0.9,
+                color: "linear-gradient(135deg, #60a5fa, #8b5cf6)",
+                category: "lofi",
+                platform: "apple"
+            },
+            {
+                id: "workout-mix",
+                title: "Workout Mix",
+                creator: "fitlife",
+                tracks: 32,
+                likes: 2.4,
+                color: "linear-gradient(135deg, #4ade80, #06b6d4)",
+                category: "electronic",
+                platform: "spotify"
+            },
+            {
+                id: "road-trip",
+                title: "Road Trip",
+                creator: "traveler",
+                tracks: 28,
+                likes: 1.7,
+                color: "linear-gradient(135deg, #fbbf24, #f97316)",
+                category: "rock",
+                platform: "melon"
+            },
+            {
+                id: "study-focus",
+                title: "Study Focus",
+                creator: "brainpower",
+                tracks: 15,
+                likes: 0.8,
+                color: "linear-gradient(135deg, #818cf8, #3b82f6)",
+                category: "classical",
+                platform: "apple"
+            },
+            {
+                id: "party-anthems",
+                title: "Party Anthems",
+                creator: "partypeople",
+                tracks: 22,
+                likes: 3.1,
+                color: "linear-gradient(135deg, #f472b6, #ef4444)",
+                category: "dance",
+                platform: "spotify"
+            },
+            {
+                id: "indie-discoveries",
+                title: "Indie Discoveries",
+                creator: "musicexplorer",
+                tracks: 27,
+                likes: 1.5,
+                color: "linear-gradient(135deg, #a78bfa, #ec4899)",
+                category: "indie",
+                platform: "melon"
+            },
+            {
+                id: "jazz-classics",
+                title: "Jazz Classics",
+                creator: "jazzlover",
+                tracks: 19,
+                likes: 1.3,
+                color: "linear-gradient(135deg, #fbbf24, #f97316)",
+                category: "jazz",
+                platform: "spotify"
+            },
+            {
+                id: "90s-throwbacks",
+                title: "90s Throwbacks",
+                creator: "retromusic",
+                tracks: 25,
+                likes: 2.2,
+                color: "linear-gradient(135deg, #14b8a6, #22c55e)",
+                category: "pop",
+                platform: "apple"
+            },
+            {
+                id: "acoustic-sessions",
+                title: "Acoustic Sessions",
+                creator: "acousticlover",
+                tracks: 16,
+                likes: 1.1,
+                color: "linear-gradient(135deg, #fb7185, #ef4444)",
+                category: "acoustic",
+                platform: "melon"
+            },
+            {
+                id: "hip-hop-essentials",
+                title: "Hip-Hop Essentials",
+                creator: "beatmaster",
+                tracks: 30,
+                likes: 2.8,
+                color: "linear-gradient(135deg, #94a3b8, #6b7280)",
+                category: "hiphop",
+                platform: "spotify"
+            },
+            {
+                id: "morning-coffee",
+                title: "Morning Coffee",
+                creator: "earlybird",
+                tracks: 14,
+                likes: 0.7,
+                color: "linear-gradient(135deg, #fbbf24, #eab308)",
+                category: "lofi",
+                platform: "apple"
+            }
+        ];
+
+        // Platform icons
+        const platformIcons = {
+            spotify: '<div class="platform-icon platform-spotify"><svg width="12" height="12" fill="white" viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.24 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></div>',
+            apple: '<div class="platform-icon platform-apple"><svg width="12" height="12" fill="white" viewBox="0 0 24 24"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09z"/></svg></div>',
+            melon: '<div class="platform-icon platform-melon"><svg width="12" height="12" fill="white" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg></div>'
+        };
+
+        // Filter and display playlists
+        function filterAndDisplayPlaylists() {
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            const platformFilter = document.getElementById('platformFilter').value;
+            const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+
+            const filteredPlaylists = allPlaylists.filter(playlist => {
+                // Filter by category
+                if (categoryFilter !== 'all' && playlist.category !== categoryFilter) {
+                    return false;
+                }
+
+                // Filter by platform
+                if (platformFilter !== 'all' && playlist.platform !== platformFilter) {
+                    return false;
+                }
+
+                // Filter by search query
+                if (searchQuery) {
+                    return playlist.title.toLowerCase().includes(searchQuery) || 
+                           playlist.creator.toLowerCase().includes(searchQuery);
+                }
+
+                return true;
+            });
+
+            displayPlaylists(filteredPlaylists);
+        }
+
+        // Display playlists
+        function displayPlaylists(playlists) {
+            const grid = document.getElementById('playlistsGrid');
+            const noResults = document.getElementById('noResults');
+
+            if (playlists.length === 0) {
+                grid.innerHTML = '';
+                noResults.style.display = 'block';
+                return;
+            }
+
+            noResults.style.display = 'none';
+            grid.innerHTML = '';
+
+            playlists.forEach(playlist => {
+                const card = document.createElement('div');
+                card.className = 'playlist-card';
+                card.onclick = () => openPlaylistModal(playlist);
+
+                card.innerHTML = `
+                    <div class="playlist-gradient" style="background: ${playlist.color}"></div>
+                    <div class="playlist-overlay"></div>
+                    <div class="playlist-content">
+                        <div class="playlist-header">
+                            <div>
+                                <h3 class="playlist-title">${playlist.title}</h3>
+                                <p class="playlist-creator">by @${playlist.creator}</p>
+                            </div>
+                            ${platformIcons[playlist.platform]}
+                        </div>
+                        <div class="playlist-stats">
+                            <div class="playlist-tracks">${playlist.tracks} tracks</div>
+                            <div class="playlist-likes">
+                                <svg class="heart-icon" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                </svg>
+                                ${playlist.likes}k
+                            </div>
+                        </div>
+                        <button class="btn playlist-btn">
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                            Play
+                        </button>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+        }
+
+        // Open playlist modal
+        function openPlaylistModal(playlist) {
+            alert(`${playlist.title} 플레이리스트를 재생하려면 로그인이 필요합니다.\n\n로그인 페이지로 이동하시겠습니까?`);
+            if (confirm('로그인 페이지로 이동하시겠습니까?')) {
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            filterAndDisplayPlaylists();
+
+            // Add event listeners for filters
+            document.getElementById('categoryFilter').addEventListener('change', filterAndDisplayPlaylists);
+            document.getElementById('platformFilter').addEventListener('change', filterAndDisplayPlaylists);
+            document.getElementById('searchInput').addEventListener('input', filterAndDisplayPlaylists);
+        });
+    </script>
+</body>
+</html> 
